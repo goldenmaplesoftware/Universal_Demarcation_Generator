@@ -1,15 +1,15 @@
 package com.example.test;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -17,8 +17,13 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,6 +33,8 @@ public class Main extends Application
     private Button selectSingleFile=new Button("Single File Browse");
     private Button selectBatchFile=new Button("Batch File Browse");
     private Button selectPDFFile= new Button("Single PDF Create");
+
+    private Button historyButton= new Button("History");
     private String sourceDirectory;
     private String fileNameInputted; ///File name that user inputs
 
@@ -37,26 +44,30 @@ public class Main extends Application
     private Text printSourceOnScreen = new Text(sourceDirectory);
     private Text printSourceOnScreen2 = new Text(fileNameInputted+" was saved");
     private Text printSourceOnScreenTitle = new Text(sourceDirectory);
-
+    private Text titleName= new Text("Universal Demarcation Generator");
 
     private VBox buttonView =new VBox(selectSingleFile,selectBatchFile,selectPDFFile);
+    private VBox historyView =new VBox();
+
 
     @Override
     public void start(Stage windowApplication) throws IOException {
         StackPane screen1 = new StackPane();
         Scene scene = new Scene(screen1, 1280,720);
-        screen1.setStyle("-fx-background-color: #00308B;"); ///BACKGROUND COLOR 1
+        screen1.setStyle("-fx-background-color: #9b0000;"); ///BACKGROUND COLOR 1
+
+
+
 
         ///Title & Footer Text For Application
-        Text titleName= new Text("Universal Demarcation Generator");
         Text authorName= new Text("Golden Maple Software © 2022");
 
 
         ///Title Properties
-        titleName.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR,35));
-        titleName.setFill(Color.CYAN);
+        titleName.setFont(Font.font("Arial", FontWeight.findByWeight(25), FontPosture.REGULAR,35));
+        titleName.setFill(Color.RED);
         titleName.setStroke(Color.BLACK);
-        StackPane.setAlignment(titleName, Pos.TOP_CENTER);
+        ///StackPane.setAlignment();
 
         ///Footer Text Properties
         authorName.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR,25));
@@ -65,17 +76,36 @@ public class Main extends Application
         StackPane.setAlignment(authorName, Pos.BOTTOM_CENTER);
 
         ///Select Single File
-        Button selectSingleFile= new Button("Open File To Overwrite");
+        Button selectSingleFile= new Button("Open Single File");
         selectSingleFile.styleProperty().bind(Bindings.when(selectSingleFile.hoverProperty())
-                .then("-fx-background-color: #402061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;")
-                .otherwise("-fx-background-color: #002061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;"));
+                .then("-fx-background-color: #d43500; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#d1d1d1;-fx-border-width: 1.5px; -fx-font-size: 1.65em;")
+                .otherwise("-fx-background-color: #2b2323; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#ffffff;-fx-border-width: 1.5px; -fx-font-size: 1.65em;"));
 
-        Button selectBatchFile= new Button("Open Multiple Files To Overwrite");
+        Button selectBatchFile= new Button("Open Multiple Files");
         selectBatchFile.styleProperty().bind(Bindings.when(selectBatchFile.hoverProperty())
-                .then("-fx-background-color: #402061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;")
-                .otherwise("-fx-background-color: #002061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;"));
+                .then("-fx-background-color: #d43500; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#d1d1d1;-fx-border-width: 1.5px; -fx-font-size: 1.65em;")
+                .otherwise("-fx-background-color: #2b2323; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#ffffff;-fx-border-width: 1.5px; -fx-font-size: 1.65em;"));
+
+        Button historyButton= new Button("History");
+        historyButton.styleProperty().bind(Bindings.when(historyButton.hoverProperty())
+                .then("-fx-background-color: #d43500; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#d1d1d1;-fx-border-width: 1.5px; -fx-font-size: 1.65em;")
+                .otherwise("-fx-background-color: #2b2323; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#ffffff;-fx-border-width: 1.5px; -fx-font-size: 1.65em;"));
 
 
+        Button writeSingleFileButton= new Button("Overwrite Single File");
+        writeSingleFileButton.styleProperty().bind(Bindings.when(writeSingleFileButton.hoverProperty())
+                .then("-fx-background-color: #d43500; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#d1d1d1;-fx-border-width: 1.5px; -fx-font-size: 1.65em;")
+                .otherwise("-fx-background-color: #2b2323; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#ffffff;-fx-border-width: 1.5px; -fx-font-size: 1.65em;"));
+
+        //Adds all the button values and location
+
+        Button writeButton= new Button("Write To File");
+        writeButton.styleProperty().bind(Bindings.when(writeButton.hoverProperty())
+                .then("-fx-background-color: #d43500; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#d1d1d1;-fx-border-width: 1.5px; -fx-font-size: 1.65em;")
+                .otherwise("-fx-background-color: #2b2323; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#ffffff;-fx-border-width: 1.5px; -fx-font-size: 1.65em;"));
+        writeButton.setMinWidth(100);
+        writeButton.setTranslateY(25);
+        writeButton.setTranslateX(170);
 
         selectSingleFile.setOnAction(actionEvent ->
         {
@@ -147,31 +177,119 @@ public class Main extends Application
         });
 
 
+        BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT);
+        buttonView.setPadding(new Insets(10, 10, 10, 10));
+        Border border = new Border(borderStroke);
 
 
+        ///Main Panel
+        VBox mainPanel= new VBox();
+        mainPanel.setLayoutX(352.55);
+        mainPanel.setAlignment(Pos.CENTER);
+        mainPanel.setBorder(border);
+        mainPanel.setSpacing(10);
+        mainPanel.setPadding(new Insets(10, 10, 10, 120));
+        mainPanel.setBackground(new Background(new BackgroundFill(Color.rgb(40,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainPanel.setMaxWidth(1200);
+        mainPanel.setMaxHeight(550);
 
-        Button jumpToPage= new Button("Create Duplicate File");
-        jumpToPage.styleProperty().bind(Bindings.when(jumpToPage.hoverProperty())
-                .then("-fx-background-color: #402061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;")
-                .otherwise("-fx-background-color: #002061; -fx-color:#000000; -fx-font-family:'Gentium Book Basic'; -fx-border-color:#2f3031;-fx-border-width: 3px; -fx-font-size: 2em;"));
+        fileToInputTextField.setAlignment(Pos.BOTTOM_LEFT);
+        fileToInputTextField.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.ENTER) {
+                System.out.println("Enter was pressed");
+                Color colourSourcePrint2 = Color.RED;
+                printSourceOnScreen2.setFill(colourSourcePrint2);
+                printSourceOnScreen2.setFont(Font.font("System", FontWeight.BOLD, 18));
+                System.out.println("Create PDF File.");
+                System.out.println("This creates a blank PDF");
+                String fileName = fileToInputTextField.getText() + ".pdf";
 
-        jumpToPage.setOnAction(actionEvent ->
+                printSourceOnScreen2.setText(fileToInputTextField.getText() + " was successfully created!!!");
+                printSourceOnScreen.setVisible(true);
+                printSourceOnScreenTitle.setVisible(true);
+                selectPDFFile.setVisible(true);
+                Color colourSourcePrint = Color.RED;
+                printSourceOnScreen.setFill(colourSourcePrint);
+                printSourceOnScreen.setFont(Font.font("System", FontWeight.BOLD, 14));
+                System.out.println("Single file selection is valid");
+
+                try
+                {
+                    PDDocument doc=new PDDocument();
+                    doc.addPage(new PDPage()); ///Duplicate to make multiple pages in single document!
+                    doc.addPage(new PDPage());
+                    doc.save(fileName);
+                    doc.close();
+                    System.out.println("File has been created!");
+
+                }
+
+                catch (IOException ex)
+                {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+
+            else
+            {
+                System.out.println("Try again.");
+            }
+
+
+        });
+
+
+        ///Input Panel
+        VBox writePanel= new VBox(fileToInputTextField,writeButton);
+        writePanel.setAlignment(Pos.TOP_CENTER);
+        writePanel.setBorder(border);
+        writePanel.setPadding(new Insets(350, 50, 50, 50));
+        writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
+        writePanel.setMaxWidth(500);
+        writePanel.setMaxHeight(350);
+        writePanel.setVisible(false);
+
+        writeSingleFileButton.setOnAction(actionEvent ->
         {
-            jumpToPage.setMnemonicParsing(true);
-            System.out.println("New scene transition");
-            windowApplication.setScene(new AddWaterMark()); ///Change Window
+            writeSingleFileButton.setMnemonicParsing(true);
+            System.out.println("Writing pane has been made visiable");
+            writePanel.setVisible(true);
+            ///windowApplication.setScene(new AddWaterMark()); ///Change Window
             ///windowApplication.setScene(new WaterMarkGenerated());
         });
 
 
-        ///Button Views
-        VBox buttonView = new VBox(selectSingleFile,selectBatchFile,jumpToPage);
+        ///Button View
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.add(selectSingleFile, 1, 0);
+        gridPane.add(selectBatchFile, 0,0);
+        gridPane.add(writeSingleFileButton, 0,1);
+        gridPane.add(historyButton,1,1 );
+        gridPane.setHgap(20);
+        gridPane.setVgap(20);
+
+
+        VBox buttonView = new VBox(gridPane);
         buttonView.setAlignment(Pos.CENTER);
+        buttonView.setBorder(border);
         buttonView.setSpacing(10);
         buttonView.setPadding(new Insets(10, 10, 10, 10));
+        buttonView.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        buttonView.setMaxWidth(500);
+        buttonView.setMaxHeight(200);
+
+
+
+        historyButton.setOnAction(actionEvent ->
+        {
+            historyView.setVisible(true);
+
+        });
 
         ///Imports and GUI Settings
-        screen1.getChildren().addAll(titleName,authorName,buttonView);
+        screen1.getChildren().addAll(titleName,authorName, mainPanel,writePanel,buttonView);
         windowApplication.setTitle("Universal Demarcation Generator");
         windowApplication.setResizable(false);
         windowApplication.setScene(scene);
