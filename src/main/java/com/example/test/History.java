@@ -5,7 +5,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 
 import java.io.IOException;
 
-public class PDFGenerate {
+public class History {
 
 
     public static String pdfCreate(String fileNameInputted)

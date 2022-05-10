@@ -1,23 +1,16 @@
 package com.example.test;
 
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.util.List;
-
-public class PDFWaterMarkAddedPane extends StackPane
+public class HistoryPane extends StackPane
 {
 
     private Text title = new Text("History");
@@ -25,7 +18,7 @@ public class PDFWaterMarkAddedPane extends StackPane
     private Button returnHome= new Button("Home"); ///Redirects to home
     private VBox buttonView =new VBox(title,pdfSelected,returnHome);
 
-    public PDFWaterMarkAddedPane() {
+    public HistoryPane() {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background: rgb(75,0,0);");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);

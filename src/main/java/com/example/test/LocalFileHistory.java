@@ -20,7 +20,7 @@ public class LocalFileHistory {
         fileWriter.close();
     }
 
- public static LocalFileHistory watermarkAdded(String fileName) throws IOException
+ public static LocalFileHistory fileSaved(String fileName) throws IOException
  {
 
      FileWriter fileWriter = new FileWriter(history, true);
@@ -28,11 +28,37 @@ public class LocalFileHistory {
      DateTimeFormatter openTimeReadable = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
      String formattedDate = openTime.format(openTimeReadable);
      System.out.println(Main.filenameInputtedByUser());
-     fileWriter.write("Watermark has been added to "+ Main.filenameInputtedByUser()+".pdf"+" on: " + formattedDate+"\n");
+     fileWriter.write("The file:  "+ Main.filenameInputtedByUser()+".pdf"+" has been saved on: " + formattedDate+"\n");
      fileWriter.close();
 
      return null;
  }
+
+    public static LocalFileHistory historyButtonOpened() throws IOException
+    {
+
+        FileWriter fileWriter = new FileWriter(history, true);
+        LocalDateTime openTime = LocalDateTime.now();
+        DateTimeFormatter openTimeReadable = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = openTime.format(openTimeReadable);
+        System.out.println(Main.filenameInputtedByUser());
+        fileWriter.write("The history button has been opened " + formattedDate+"\n");
+        fileWriter.close();
+        return null;
+    }
+
+    public static LocalFileHistory logicGateSimulatorOpened() throws IOException
+    {
+
+        FileWriter fileWriter = new FileWriter(history, true);
+        LocalDateTime openTime = LocalDateTime.now();
+        DateTimeFormatter openTimeReadable = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String formattedDate = openTime.format(openTimeReadable);
+        System.out.println(Main.filenameInputtedByUser());
+        fileWriter.write("The logic gate simulator button has been opened " + formattedDate+"\n");
+        fileWriter.close();
+        return null;
+    }
 
 
 
