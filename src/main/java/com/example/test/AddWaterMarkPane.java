@@ -149,9 +149,9 @@ public class AddWaterMarkPane extends StackPane
             System.out.println("Process terminated");
 
         });
-
         printSourceOnScreen2.setVisible(true);
         Thread.sleep(1500);
+
         this.getChildren().add(selectSingleFile);
 
 

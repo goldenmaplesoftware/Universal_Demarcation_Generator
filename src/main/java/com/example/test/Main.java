@@ -1,11 +1,8 @@
 package com.example.test;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
@@ -22,8 +19,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -36,39 +31,39 @@ public class Main extends Application
 
     private Button historyButton= new Button("History");
     private String sourceDirectory;
-    private String fileNameInputted; ///File name that user inputs
+    public static String fileNameInputted; ///File name that user inputs
 
     private Label fileToInputLabel = new Label("Input file name");
-    private TextField fileToInputTextField = new TextField(fileNameInputted);
-    private Text name = new Text("Smart Tracker");
+    private static TextField fileToInputTextField = new TextField(fileNameInputted);
     private Text printSourceOnScreen = new Text(sourceDirectory);
-    private Text printSourceOnScreen2 = new Text(fileNameInputted+" was saved");
     private Text printSourceOnScreenTitle = new Text(sourceDirectory);
     private Text titleName= new Text("Universal Demarcation Generator");
 
     private VBox buttonView =new VBox(selectSingleFile,selectBatchFile,selectPDFFile);
-    private VBox historyView =new VBox();
 
+
+    public static String filenameInputtedByUser()
+    {
+        return fileToInputTextField.getText();
+    }
 
     @Override
     public void start(Stage windowApplication) throws IOException {
+        new LocalFileHistory();
+
         StackPane screen1 = new StackPane();
         Scene scene = new Scene(screen1, 1280,720);
         screen1.setStyle("-fx-background-color: #9b0000;"); ///BACKGROUND COLOR 1
-
-
-
-
-        ///Title & Footer Text For Application
-        Text authorName= new Text("Golden Maple Software © 2022");
-
 
         ///Title Properties
         titleName.setFont(Font.font("Arial", FontWeight.findByWeight(25), FontPosture.REGULAR,35));
         titleName.setFill(Color.RED);
         titleName.setStroke(Color.BLACK);
-        ///StackPane.setAlignment();
+        StackPane.setAlignment(titleName, Pos.TOP_CENTER);
 
+
+        ///Title & Footer Text For Application
+        Text authorName= new Text("Golden Maple Software © 2022");
         ///Footer Text Properties
         authorName.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR,25));
         authorName.setFill(Color.GOLD);
@@ -127,6 +122,7 @@ public class Main extends Application
                 System.out.println("Single file selection is invalid!");
             }
         });
+
 
         selectBatchFile.setOnAction(actionEvent ->
         {
@@ -196,25 +192,12 @@ public class Main extends Application
         fileToInputTextField.setAlignment(Pos.BOTTOM_LEFT);
         fileToInputTextField.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.ENTER) {
-                System.out.println("Enter was pressed");
-                Color colourSourcePrint2 = Color.RED;
-                printSourceOnScreen2.setFill(colourSourcePrint2);
-                printSourceOnScreen2.setFont(Font.font("System", FontWeight.BOLD, 18));
-                System.out.println("Create PDF File.");
-                System.out.println("This creates a blank PDF");
                 String fileName = fileToInputTextField.getText() + ".pdf";
-
-                printSourceOnScreen2.setText(fileToInputTextField.getText() + " was successfully created!!!");
-                printSourceOnScreen.setVisible(true);
-                printSourceOnScreenTitle.setVisible(true);
-                selectPDFFile.setVisible(true);
-                Color colourSourcePrint = Color.RED;
-                printSourceOnScreen.setFill(colourSourcePrint);
-                printSourceOnScreen.setFont(Font.font("System", FontWeight.BOLD, 14));
-                System.out.println("Single file selection is valid");
-
+                System.out.println("This creates a blank PDF");
+                ///String fileName="SampleTextFile.pdf"; ///File name that is generated
                 try
                 {
+
                     PDDocument doc=new PDDocument();
                     doc.addPage(new PDPage()); ///Duplicate to make multiple pages in single document!
                     doc.addPage(new PDPage());
@@ -224,11 +207,16 @@ public class Main extends Application
 
                 }
 
-                catch (IOException ex)
+                catch (IOException  e2)
                 {
-                    throw new RuntimeException(ex);
+                    throw new RuntimeException(e2);
                 }
 
+                try {
+                    LocalFileHistory.watermarkAdded(fileToInputTextField.getText());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
 
             else
@@ -240,7 +228,30 @@ public class Main extends Application
         });
 
 
-        ///Input Panel
+        ///Button View
+        GridPane gridPane = new GridPane();
+        gridPane.setAlignment(Pos.CENTER);
+        gridPane.add(selectSingleFile, 1, 0);
+        gridPane.add(selectBatchFile, 0,0);
+        gridPane.add(writeSingleFileButton, 0,1);
+        gridPane.add(historyButton,1,1 );
+        gridPane.setHgap(20);
+        gridPane.setVgap(20);
+
+        ///Button Panel
+        VBox buttonView = new VBox(gridPane);
+        buttonView.setAlignment(Pos.CENTER);
+        buttonView.setBorder(border);
+        buttonView.setSpacing(10);
+        buttonView.setPadding(new Insets(10, 10, 10, 10));
+        buttonView.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        buttonView.setMaxWidth(500);
+        buttonView.setMaxHeight(200);
+
+
+
+
+        ///Input Single File Panel
         VBox writePanel= new VBox(fileToInputTextField,writeButton);
         writePanel.setAlignment(Pos.TOP_CENTER);
         writePanel.setBorder(border);
@@ -255,38 +266,40 @@ public class Main extends Application
             writeSingleFileButton.setMnemonicParsing(true);
             System.out.println("Writing pane has been made visiable");
             writePanel.setVisible(true);
-            ///windowApplication.setScene(new AddWaterMark()); ///Change Window
-            ///windowApplication.setScene(new WaterMarkGenerated());
         });
 
+        /*
+        Rectangle historyView=new Rectangle();
+        //Setting the properties of the rectangle
+        historyView.setX(250.0f);
+        historyView.setY(575.0f);
+        historyView.setWidth(300.0f);
+        historyView.setHeight(450.0f);
+        //Setting other properties
+        historyView.setFill(Color.DARKCYAN);
+        historyView.setStrokeWidth(8.0);
+        historyView.setStroke(Color.DARKSLATEGREY);
 
-        ///Button View
-        GridPane gridPane = new GridPane();
-        gridPane.setAlignment(Pos.CENTER);
-        gridPane.add(selectSingleFile, 1, 0);
-        gridPane.add(selectBatchFile, 0,0);
-        gridPane.add(writeSingleFileButton, 0,1);
-        gridPane.add(historyButton,1,1 );
-        gridPane.setHgap(20);
-        gridPane.setVgap(20);
+        historyView.setTranslateX(screen1.getWidth()/1.65);
 
-
-        VBox buttonView = new VBox(gridPane);
-        buttonView.setAlignment(Pos.CENTER);
-        buttonView.setBorder(border);
-        buttonView.setSpacing(10);
-        buttonView.setPadding(new Insets(10, 10, 10, 10));
-        buttonView.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
-        buttonView.setMaxWidth(500);
-        buttonView.setMaxHeight(200);
-
-
+        historyView.setVisible(false);
+        */
 
         historyButton.setOnAction(actionEvent ->
         {
-            historyView.setVisible(true);
+            System.out.println("Test");
+            try {
+                windowApplication.setScene(new WaterMarkGenerated()); ///Change Window
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
 
         });
+
+
+
+
+
 
         ///Imports and GUI Settings
         screen1.getChildren().addAll(titleName,authorName, mainPanel,writePanel,buttonView);
@@ -296,7 +309,13 @@ public class Main extends Application
         windowApplication.show();
     }
 
+
+
+
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void start() {
     }
 }
