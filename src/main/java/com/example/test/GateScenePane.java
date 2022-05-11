@@ -1,4 +1,6 @@
 package com.example.test;
+import com.example.test.Gates.NAND_2_Input;
+import com.example.test.Gates.NAND_7400;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
@@ -40,16 +42,18 @@ public class GateScenePane extends StackPane
     private static TextField inputInputsTextField = new TextField(inputInputsGates);
     private Button closeWindow= new Button("X"); ///Redirects to home
     private Button closeTerminal= new Button("X"); ///Redirects to home
+    private Button terminalInputSetup= new Button("Terminal Main"); ///Container of visual elements produced
+
     private Button visualSymbolsTerminal= new Button("Gate Container"); ///Container of visual elements produced
     private Button terminalTableResults= new Button("Terminal Table"); ///Container of visual elements produced
     private Button openTerminal= new Button("Open Terminal"); ///Redirects to home
     private Button openVisual= new Button("Open Blueprint Workspace"); ///Redirects to home
     private HBox buttonTopVisualPane=new HBox(title,openTerminal,closeWindow);
-    private HBox buttonTopTerminalPane=new HBox(visualSymbolsTerminal,terminalTableResults,closeTerminal);
+    private HBox buttonTopTerminalPane=new HBox(terminalInputSetup,terminalTableResults,visualSymbolsTerminal,closeTerminal);
     private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content);
     private GridPane terminalInputField=new GridPane();
     private GridPane saveInputField=new GridPane();
-    private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,terminalInputField);
+
     ////private VBox gateTerminalCommands =new VBox(closeTerminal,title2,inputAmountUniversalInputs,inputAmountGates,inputTypeGate,inputInputGate);
     public static String fileNameInputted; ///File name that user inputs
     private String sourceDirectory;
@@ -66,12 +70,27 @@ public class GateScenePane extends StackPane
     private Label fileToInputLabel = new Label("Input file name");
     private static TextField fileToInputTextField = new TextField(fileNameInputted);
 
+    private static TableView truthTable = new TableView();
+
+    private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField);
+    private final VBox vboxTruthTable = new VBox();
+    private final Label labelTruthTable = new Label("Truth Table");
     public static String filenameInputtedByUser()
     {
         return fileToInputTextField.getText();
     }
+
+    private static int userInputtedGateNumber; ///Gate number this will increment as instances iterate
+    private static int userInputtedICNumber;   ///Ic number this will increment as instances iterate
+
     public GateScenePane()
     {
+        userInputtedGateNumber=2;
+        ///Terminal stuff not visible
+        terminalInputField.setVisible(false);
+        truthTable.setVisible(false);
+        labelTruthTable.setVisible(false);
+
         ///Main toolbar at top of the page
         VBox toolbar = new VBox(toolBarMain);
         toolBarMain.getItems().add(newProjectButton);
@@ -234,7 +253,31 @@ public class GateScenePane extends StackPane
 
         });
 
+        ///Terminal Window Buttons
+        ///visualSymbolsTerminal,terminalTableResults,closeTerminal
 
+        terminalInputSetup.setOnAction(actionEvent ->
+        {
+            System.out.println("Terminal Main is open");
+            terminalInputField.setVisible(true);
+            truthTable.setVisible(false);
+            labelTruthTable.setVisible(false);
+        });
+
+        terminalTableResults.setOnAction(actionEvent ->
+        {
+            System.out.println("Terminal Table is open");
+            truthTable.setVisible(true);
+            labelTruthTable.setVisible(true);
+            terminalInputField.setVisible(false);
+        });
+
+        visualSymbolsTerminal.setOnAction(actionEvent ->
+        {
+            terminalInputField.setVisible(false);
+            truthTable.setVisible(false);
+            labelTruthTable.setVisible(false);
+        });
 
         ///VBox visual properties
         gateVisualVBox.setAlignment(Pos.CENTER);
@@ -253,7 +296,7 @@ public class GateScenePane extends StackPane
         gateVisualVBox.setTranslateY(100.0);///Moves the box y orientation
 
         ///HBox top of terminal that has buttons visual
-        HBox.setMargin(closeTerminal,new Insets(0,0,0,658));
+        HBox.setMargin(closeTerminal,new Insets(0,0,0,458));
         buttonTopTerminalPane.setSpacing(40);
         buttonTopTerminalPane.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -262,7 +305,7 @@ public class GateScenePane extends StackPane
                 "-fx-border-color: #3f4040;");
 
         ///HBox top of visual that has buttons visual
-        HBox.setMargin(closeWindow,new Insets(0,0,0,658));
+        HBox.setMargin(closeWindow,new Insets(0,0,0,458));
         buttonTopVisualPane.setSpacing(40);
         buttonTopVisualPane.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -284,7 +327,7 @@ public class GateScenePane extends StackPane
         gateTerminalCommands.setTranslateX(20.0);///Moves the box x orientation
         gateTerminalCommands.setTranslateY(200.0);///Moves the box y orientation
 
-        ///Gridpane inside terminal properties
+        ///Gridpane inside terminal main properties
         terminalInputField.setMinSize(350,150);
         terminalInputField.setPadding(new Insets(15,15,15,15));
         terminalInputField.setVgap(10.0);
@@ -303,13 +346,59 @@ public class GateScenePane extends StackPane
         terminalInputField.setStyle("-fx-background-color: #002082; " +
                                     "-fx-grid-lines-visible: true"
                                    );
-        Group group=new Group(gateVisualVBox,toolbar,writePanel);
-        scrollPane.setContent(group);
+        ///Table View for terminal table
 
+        labelTruthTable.setFont(new Font("Arial", 20));
+        truthTable.setStyle("-fx-background-color: #002082;"+
+                            "-fx-border-color: #3f4040;"
+                           );
+        /*
+        TableColumn titleCol = new TableColumn("Title");
+        TableColumn authorCol = new TableColumn("Author");
+        truthTable.getColumns().setAll(titleCol, authorCol);
+        truthTable.setPrefWidth(450);
+        truthTable.setPrefHeight(300);
+        truthTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        */
+
+        ///This is the container of objects...
+        ///NAND_7400_IC();
+        ///NAND_2_Input_Single_Gate();
+
+
+
+
+        vboxTruthTable.setSpacing(5);
+        vboxTruthTable.setPadding(new Insets(10, 0, 0, 10));
+        vboxTruthTable.setLayoutX(900.0);
+        vboxTruthTable.getChildren().addAll(labelTruthTable,truthTable);
+
+        Group group=new Group(gateVisualVBox,toolbar,writePanel,vboxTruthTable);
+        scrollPane.setContent(group);
         this.getChildren().addAll(scrollPane,gateTerminalCommands);
     }
 
 
+
+    public void NAND_2_Input_Single_Gate()
+    {
+        NAND_2_Input<Object, Object, Object, Object> logicGate=
+                new NAND_2_Input<>(NAND_2_Input.gateName(),userInputtedGateNumber,true,false,true);
+        logicGate.gateNumberOutput();
+        logicGate.NAND_2_Output();
+    }
+public void NAND_7400_IC()
+{
+    NAND_7400<Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object, Object> logicGate=
+            new NAND_7400<>(NAND_7400.ICName(),userInputtedICNumber,false,true,true,false,14.0,false,true,false,false,5.0);
+    logicGate.gateNumberOutput();
+    logicGate.voltageInput();
+    logicGate.groundOutput();
+    logicGate.gateOutput_1Y();
+    logicGate.gateOutput_2Y();
+    logicGate.gateOutput_3Y();
+    logicGate.gateOutput_4Y();
+}
 
 
 
