@@ -19,20 +19,20 @@ import java.io.IOException;
 
 public class GateScenePane extends StackPane
 {
-    private Text title = new Text("Visual Pane");
-    private Text title2 = new Text("History2");
+    private Text title = new Text("xGate");
+    private Text title2 = new Text("xGate#");
     private Text content = new Text("content");///This is new path that is created
-    private Text inputAmountUniversalInputs = new Text("Input the amount of universal inputs");
+    private Text inputAmountUniversalInputs = new Text("Input the amount of universal inputs:");
     public static String amountInputs; ///String to int have to convert..
-    private Label inputAmountUniversalInputsLabel= new Label("Input amount universal inputs");
+    private Label inputAmountUniversalInputsLabel= new Label("Input amount universal inputs:");
     private static TextField inputAmountUniversalInputsTextField = new TextField(amountInputs);
-    private Text inputAmountGates = new Text("Input the amount of gates");
+    private Text inputAmountGates = new Text("Input the amount of gates:");
     public static String amountGates; ///String to int have to convert...
-    private Label inputAmountGatesLabel= new Label("Input the amount of gates");
+    private Label inputAmountGatesLabel= new Label("Input the amount of gates:");
     private static TextField inputAmountGatesTextField = new TextField(amountGates);
-    private Text inputTypeGate = new Text("Input the type of gate");
+    private Text inputTypeGate = new Text("Input the type of gate:");
     public static String inputTypeGates; ///String to int have to convert...
-    private Label inputTypeGatesLabel= new Label("Input the type of gate");
+    private Label inputTypeGatesLabel= new Label("Input the type of gate:");
     private static TextField inputTypeTextField = new TextField(inputTypeGates);
     private Text inputInputsGate = new Text("Input amount of inputs on x gate");
     public static String inputInputsGates; ///String to int have to convert...
@@ -48,17 +48,20 @@ public class GateScenePane extends StackPane
     private HBox buttonTopTerminalPane=new HBox(visualSymbolsTerminal,terminalTableResults,closeTerminal);
     private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content);
     private GridPane terminalInputField=new GridPane();
+    private GridPane saveInputField=new GridPane();
     private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,terminalInputField);
     ////private VBox gateTerminalCommands =new VBox(closeTerminal,title2,inputAmountUniversalInputs,inputAmountGates,inputTypeGate,inputInputGate);
     public static String fileNameInputted; ///File name that user inputs
     private String sourceDirectory;
     private Text printSourceOnScreen = new Text(sourceDirectory);
+    private Text saveAsText = new Text("Save as:");
     private Text printSourceOnScreenTitle = new Text(sourceDirectory);
     private ToolBar toolBarMain = new ToolBar();
     private Button selectSingleFile=new Button("Open");
     private Button newProjectButton= new Button("New");
     private Button writeSingleFileButton= new Button("Save");
     private Button writeButton= new Button("Save As");
+    private Button closeSaveWindow= new Button("Close Dialogue Box");
 
     private Label fileToInputLabel = new Label("Input file name");
     private static TextField fileToInputTextField = new TextField(fileNameInputted);
@@ -77,39 +80,50 @@ public class GateScenePane extends StackPane
         toolBarMain.getItems().add(new Separator());
         toolBarMain.getItems().add(openTerminal);
         toolBarMain.getItems().add(openVisual);
-
+        ///Scroll Pane inside the window
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setStyle("-fx-background: rgb(75,0,0);");
+        scrollPane.setStyle("-fx-background: rgb(3, 5, 20);");
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
-
-        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 45));
-        title.setFill(Color.RED);
-        title2.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 45));
-        title2.setFill(Color.RED);
-
+        ///Fonts
+        title.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 35));
+        title.setFill(Color.WHITE);
+        title2.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 35));
+        title2.setFill(Color.WHITE);
         content.setFont(Font.font("Arial", FontWeight.BOLD, FontPosture.REGULAR, 25));
         content.setFill(Color.WHITE);
+
         ///Text box for terminal questions
         inputAmountUniversalInputs.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputAmountUniversalInputs.setFill(Color.GREEN);
+        inputAmountUniversalInputs.setFill(Color.WHITE);
         inputAmountGates.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputAmountGates.setFill(Color.GREEN);
+        inputAmountGates.setFill(Color.WHITE);
         inputTypeGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputTypeGate.setFill(Color.GREEN);
+        inputTypeGate.setFill(Color.WHITE);
         inputInputsGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputInputsGate.setFill(Color.GREEN);
-
+        inputInputsGate.setFill(Color.WHITE);
+        saveAsText.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 12));
+        saveAsText.setFill(Color.YELLOW);
+        ///Border for save as
         BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT);
         Border border = new Border(borderStroke);
 
+        ///Save as layout
+        saveInputField.setMinSize(50,50);
+        saveInputField.setVgap(15.0);
+        saveInputField.setHgap(5.0);
+        saveInputField.setAlignment(Pos.CENTER);
+        saveInputField.add(saveAsText, 0, 0);
+        saveInputField.add(fileToInputTextField, 1, 0);
+        saveInputField.add(closeSaveWindow, 0, 1);
+        saveInputField.add(writeButton, 2, 0);;
         ///Input Single File Panel
-        VBox writePanel= new VBox(fileToInputTextField,writeButton);
-        writePanel.setLayoutX(5.5);
+        VBox writePanel= new VBox(saveInputField);
+        writePanel.setLayoutX(15.5);
         writePanel.setLayoutY(40.5);
         writePanel.setBorder(border);
-        writePanel.setPadding(new Insets(10, 10, 10, 10));
-        writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
+        writePanel.setPadding(new Insets(10, 50, 10, 50));
+        writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(16, 19, 48,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
         writePanel.setMaxWidth(500);
         writePanel.setMaxHeight(250);
         writePanel.setVisible(false);
@@ -143,6 +157,12 @@ public class GateScenePane extends StackPane
         {
             System.out.println("New Project");
 
+        });
+
+        closeSaveWindow.setOnAction(actionEvent ->
+        {
+            writePanel.setVisible(false);
+            System.out.println("Save as window closed");
         });
 
         closeWindow.setOnAction(actionEvent ->
@@ -250,19 +270,22 @@ public class GateScenePane extends StackPane
                 "-fx-border-width: 2.25;" +
                 "-fx-border-color: #3f4040;");
 
-
         ///VBox terminal properties
         gateTerminalCommands.setAlignment(Pos.TOP_CENTER);
         gateTerminalCommands.setSpacing(10);
         gateTerminalCommands.setPadding(new Insets(10, 10, 10, 10));
-        gateTerminalCommands.setBackground(new Background(new BackgroundFill(Color.rgb(0,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
+        gateTerminalCommands.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-background-color: #101330;"+
+                "-fx-border-width: 2.25;" +
+                "-fx-border-color: #3f4040;");
         gateTerminalCommands.setMaxWidth(1000);
         gateTerminalCommands.setMaxHeight(300);
         gateTerminalCommands.setTranslateX(20.0);///Moves the box x orientation
         gateTerminalCommands.setTranslateY(200.0);///Moves the box y orientation
 
         ///Gridpane inside terminal properties
-        terminalInputField.setMinSize(300,150);
+        terminalInputField.setMinSize(350,150);
         terminalInputField.setPadding(new Insets(15,15,15,15));
         terminalInputField.setVgap(10.0);
         terminalInputField.setHgap(10.0);
@@ -277,7 +300,9 @@ public class GateScenePane extends StackPane
         terminalInputField.add(inputInputsTextField, 1, 3);
         terminalInputField.add(title, 0, 4);
         terminalInputField.add(title2, 1, 4);
-        terminalInputField.setStyle("-fx-background-color: black; -fx-grid-lines-visible: true");
+        terminalInputField.setStyle("-fx-background-color: #002082; " +
+                                    "-fx-grid-lines-visible: true"
+                                   );
         Group group=new Group(gateVisualVBox,toolbar,writePanel);
         scrollPane.setContent(group);
 
