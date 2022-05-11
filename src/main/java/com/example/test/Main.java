@@ -5,31 +5,23 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 
 public class Main extends Application
 {
-    private ListView<String> listView;
     private Button selectSingleFile=new Button("Single File Browse");
     private Button selectBatchFile=new Button("Batch File Browse");
     private Button selectPDFFile= new Button("Single PDF Create");
 
-    private Button historyButton= new Button("Logic Gate Simulator");
+    private Button historyButton= new Button("History");
     private String sourceDirectory;
     public static String fileNameInputted; ///File name that user inputs
 
@@ -113,29 +105,6 @@ public class Main extends Application
             windowApplication.setScene(new GateScene()); ///Change Window
         });
 
-        selectSingleFile.setOnAction(actionEvent ->
-        {
-
-            selectSingleFile.setMnemonicParsing(true);
-            System.out.println("Browse for single file was clicked.");
-            FileChooser fc=new FileChooser();
-            fc.setInitialDirectory(new File("C:\\Users\\Snaker96\\IdeaProjects\\Test")); ///Source directory path to set by user...
-            fc.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PDF Files","*.pdf"));
-            File selectFile=fc.showOpenDialog(null);
-
-            if(selectFile != null) ///If the selected file has content
-            {
-                printSourceOnScreen.setText(selectFile.getAbsolutePath());
-                printSourceOnScreenTitle.setText(selectFile.getName());
-
-            }
-            else
-            {
-                System.out.println("Single file selection is invalid!");
-            }
-        });
-
-
 
         BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT);
         buttonView.setPadding(new Insets(10, 10, 10, 10));
@@ -153,43 +122,6 @@ public class Main extends Application
         mainPanel.setMaxWidth(1200);
         mainPanel.setMaxHeight(550);
 
-        fileToInputTextField.setAlignment(Pos.BOTTOM_LEFT);
-        fileToInputTextField.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.ENTER) {
-                String fileName = fileToInputTextField.getText() + ".pdf";
-                System.out.println("This creates a blank PDF");
-                ///String fileName="SampleTextFile.pdf"; ///File name that is generated
-                try
-                {
-
-                    PDDocument doc=new PDDocument();
-                    doc.addPage(new PDPage()); ///Duplicate to make multiple pages in single document!
-                    doc.addPage(new PDPage());
-                    doc.save(fileName);
-                    doc.close();
-                    System.out.println("File has been created!");
-
-                }
-
-                catch (IOException  e2)
-                {
-                    throw new RuntimeException(e2);
-                }
-
-                try {
-                    LocalFileHistory.fileSaved(fileToInputTextField.getText()); ///This tracks application progress
-                } catch (IOException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            else
-            {
-                System.out.println("Try again.");
-            }
-
-
-        });
 
 
         ///Button View
@@ -211,26 +143,6 @@ public class Main extends Application
         buttonView.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0), CornerRadii.EMPTY, Insets.EMPTY)));
         buttonView.setMaxWidth(500);
         buttonView.setMaxHeight(200);
-
-
-
-
-        ///Input Single File Panel
-        VBox writePanel= new VBox(fileToInputTextField,writeButton);
-        writePanel.setAlignment(Pos.TOP_CENTER);
-        writePanel.setBorder(border);
-        writePanel.setPadding(new Insets(350, 50, 50, 50));
-        writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(79,0,0,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
-        writePanel.setMaxWidth(500);
-        writePanel.setMaxHeight(350);
-        writePanel.setVisible(false);
-
-        writeSingleFileButton.setOnAction(actionEvent ->
-        {
-            writeSingleFileButton.setMnemonicParsing(true);
-            System.out.println("Writing pane has been made visiable");
-            writePanel.setVisible(true);
-        });
 
         /*
         Rectangle historyView=new Rectangle();
@@ -266,26 +178,16 @@ public class Main extends Application
 
         });
 
-
-
-
-
-
         ///Imports and GUI Settings
-        screen1.getChildren().addAll(titleName,authorName, mainPanel,writePanel,buttonView);
+        screen1.getChildren().addAll(titleName,authorName, mainPanel,buttonView);
         windowApplication.setTitle("Ultimate Electronics Simulator");
         windowApplication.setResizable(false);
         windowApplication.setScene(scene);
         windowApplication.show();
     }
 
-
-
-
     public static void main(String[] args) {
         launch(args);
     }
 
-    public void start() {
-    }
 }

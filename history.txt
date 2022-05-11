@@ -19,3 +19,371 @@ The file:  y.pdf has been saved on: 10-05-2022 16:31:42
 The history button has been opened 10-05-2022 16:31:43
 Application has been opened on 10-05-2022 16:41:19
 The logic gate simulator button has been opened 10-05-2022 16:41:20
+Application has been opened on 10-05-2022 16:44:17
+The logic gate simulator button has been opened 10-05-2022 16:44:19
+Application has been opened on 10-05-2022 16:44:40
+The logic gate simulator button has been opened 10-05-2022 16:44:41
+Application has been opened on 10-05-2022 16:45:09
+The logic gate simulator button has been opened 10-05-2022 16:45:11
+Application has been opened on 10-05-2022 16:47:45
+The logic gate simulator button has been opened 10-05-2022 16:47:46
+Application has been opened on 10-05-2022 16:49:50
+The logic gate simulator button has been opened 10-05-2022 16:49:51
+Application has been opened on 10-05-2022 16:50:19
+The logic gate simulator button has been opened 10-05-2022 16:50:20
+Application has been opened on 10-05-2022 16:51:36
+The logic gate simulator button has been opened 10-05-2022 16:51:38
+Application has been opened on 10-05-2022 16:52:55
+The logic gate simulator button has been opened 10-05-2022 16:52:56
+Application has been opened on 10-05-2022 16:53:30
+The logic gate simulator button has been opened 10-05-2022 16:53:31
+Application has been opened on 10-05-2022 16:53:48
+The logic gate simulator button has been opened 10-05-2022 16:53:49
+Application has been opened on 10-05-2022 16:54:10
+The logic gate simulator button has been opened 10-05-2022 16:54:11
+Application has been opened on 10-05-2022 16:56:48
+The logic gate simulator button has been opened 10-05-2022 16:56:49
+Application has been opened on 10-05-2022 16:57:06
+The logic gate simulator button has been opened 10-05-2022 16:57:08
+Application has been opened on 10-05-2022 16:57:26
+The logic gate simulator button has been opened 10-05-2022 16:57:27
+Application has been opened on 10-05-2022 16:57:42
+The logic gate simulator button has been opened 10-05-2022 16:57:44
+Application has been opened on 10-05-2022 16:58:11
+The logic gate simulator button has been opened 10-05-2022 16:58:13
+Application has been opened on 10-05-2022 16:58:48
+The logic gate simulator button has been opened 10-05-2022 16:58:49
+Application has been opened on 10-05-2022 16:59:07
+The logic gate simulator button has been opened 10-05-2022 16:59:08
+Application has been opened on 10-05-2022 16:59:33
+The logic gate simulator button has been opened 10-05-2022 16:59:34
+Application has been opened on 10-05-2022 17:00:16
+The logic gate simulator button has been opened 10-05-2022 17:00:17
+Application has been opened on 10-05-2022 17:00:38
+The logic gate simulator button has been opened 10-05-2022 17:00:40
+Application has been opened on 10-05-2022 17:00:54
+The logic gate simulator button has been opened 10-05-2022 17:00:56
+Application has been opened on 10-05-2022 17:01:16
+The logic gate simulator button has been opened 10-05-2022 17:01:18
+Application has been opened on 10-05-2022 17:02:10
+The logic gate simulator button has been opened 10-05-2022 17:02:11
+Application has been opened on 10-05-2022 17:02:36
+The logic gate simulator button has been opened 10-05-2022 17:02:37
+Application has been opened on 10-05-2022 17:02:59
+The logic gate simulator button has been opened 10-05-2022 17:03:00
+Application has been opened on 10-05-2022 17:03:42
+The logic gate simulator button has been opened 10-05-2022 17:03:43
+Application has been opened on 10-05-2022 17:04:28
+The logic gate simulator button has been opened 10-05-2022 17:04:29
+Application has been opened on 10-05-2022 17:05:02
+The logic gate simulator button has been opened 10-05-2022 17:05:03
+Application has been opened on 10-05-2022 17:05:19
+The logic gate simulator button has been opened 10-05-2022 17:05:20
+Application has been opened on 10-05-2022 17:05:31
+The logic gate simulator button has been opened 10-05-2022 17:05:32
+Application has been opened on 10-05-2022 17:05:47
+The logic gate simulator button has been opened 10-05-2022 17:05:48
+Application has been opened on 10-05-2022 17:06:39
+The logic gate simulator button has been opened 10-05-2022 17:06:40
+Application has been opened on 10-05-2022 17:07:59
+The logic gate simulator button has been opened 10-05-2022 17:08:00
+Application has been opened on 10-05-2022 17:09:54
+The logic gate simulator button has been opened 10-05-2022 17:09:55
+Application has been opened on 10-05-2022 17:11:48
+The logic gate simulator button has been opened 10-05-2022 17:11:49
+Application has been opened on 10-05-2022 17:12:04
+The logic gate simulator button has been opened 10-05-2022 17:12:06
+Application has been opened on 10-05-2022 17:13:49
+The logic gate simulator button has been opened 10-05-2022 17:13:51
+Application has been opened on 10-05-2022 17:14:10
+The logic gate simulator button has been opened 10-05-2022 17:14:11
+Application has been opened on 10-05-2022 17:15:05
+The logic gate simulator button has been opened 10-05-2022 17:15:06
+Application has been opened on 10-05-2022 17:15:51
+The logic gate simulator button has been opened 10-05-2022 17:15:51
+Application has been opened on 10-05-2022 17:16:35
+The logic gate simulator button has been opened 10-05-2022 17:16:37
+Application has been opened on 10-05-2022 17:17:49
+The logic gate simulator button has been opened 10-05-2022 17:17:50
+Application has been opened on 10-05-2022 17:18:12
+The logic gate simulator button has been opened 10-05-2022 17:18:13
+Application has been opened on 10-05-2022 17:19:05
+The logic gate simulator button has been opened 10-05-2022 17:19:07
+Application has been opened on 10-05-2022 17:19:29
+The logic gate simulator button has been opened 10-05-2022 17:19:30
+Application has been opened on 10-05-2022 17:19:57
+The logic gate simulator button has been opened 10-05-2022 17:19:58
+Application has been opened on 10-05-2022 17:20:35
+The logic gate simulator button has been opened 10-05-2022 17:20:36
+Application has been opened on 10-05-2022 17:21:17
+The logic gate simulator button has been opened 10-05-2022 17:21:18
+Application has been opened on 10-05-2022 17:21:37
+The logic gate simulator button has been opened 10-05-2022 17:21:38
+Application has been opened on 10-05-2022 17:22:09
+The logic gate simulator button has been opened 10-05-2022 17:22:11
+Application has been opened on 10-05-2022 17:23:11
+The logic gate simulator button has been opened 10-05-2022 17:23:12
+Application has been opened on 10-05-2022 17:23:48
+The logic gate simulator button has been opened 10-05-2022 17:23:50
+Application has been opened on 10-05-2022 17:24:01
+The logic gate simulator button has been opened 10-05-2022 17:24:02
+Application has been opened on 10-05-2022 17:24:13
+The logic gate simulator button has been opened 10-05-2022 17:24:14
+Application has been opened on 10-05-2022 17:41:23
+The logic gate simulator button has been opened 10-05-2022 17:41:24
+Application has been opened on 10-05-2022 17:42:53
+The logic gate simulator button has been opened 10-05-2022 17:42:54
+Application has been opened on 10-05-2022 17:51:28
+The logic gate simulator button has been opened 10-05-2022 17:51:29
+Application has been opened on 10-05-2022 17:57:39
+The logic gate simulator button has been opened 10-05-2022 17:57:40
+Application has been opened on 10-05-2022 17:58:43
+The logic gate simulator button has been opened 10-05-2022 17:58:44
+Application has been opened on 10-05-2022 18:09:06
+The logic gate simulator button has been opened 10-05-2022 18:09:07
+Application has been opened on 10-05-2022 18:12:50
+The logic gate simulator button has been opened 10-05-2022 18:12:53
+Application has been opened on 10-05-2022 18:15:10
+The logic gate simulator button has been opened 10-05-2022 18:15:11
+Application has been opened on 10-05-2022 18:15:33
+The logic gate simulator button has been opened 10-05-2022 18:15:34
+Application has been opened on 10-05-2022 18:15:48
+The logic gate simulator button has been opened 10-05-2022 18:15:50
+Application has been opened on 10-05-2022 18:16:14
+The logic gate simulator button has been opened 10-05-2022 18:16:15
+Application has been opened on 10-05-2022 18:16:42
+The logic gate simulator button has been opened 10-05-2022 18:16:43
+Application has been opened on 10-05-2022 18:17:04
+The logic gate simulator button has been opened 10-05-2022 18:17:05
+Application has been opened on 10-05-2022 18:17:21
+The logic gate simulator button has been opened 10-05-2022 18:17:23
+Application has been opened on 10-05-2022 18:26:31
+The logic gate simulator button has been opened 10-05-2022 18:26:33
+Application has been opened on 10-05-2022 18:30:43
+The logic gate simulator button has been opened 10-05-2022 18:30:46
+Application has been opened on 10-05-2022 18:31:38
+The logic gate simulator button has been opened 10-05-2022 18:31:39
+Application has been opened on 10-05-2022 18:32:01
+The logic gate simulator button has been opened 10-05-2022 18:32:02
+Application has been opened on 10-05-2022 18:32:49
+The logic gate simulator button has been opened 10-05-2022 18:32:50
+Application has been opened on 10-05-2022 18:33:35
+The logic gate simulator button has been opened 10-05-2022 18:33:36
+Application has been opened on 10-05-2022 18:34:15
+The logic gate simulator button has been opened 10-05-2022 18:34:16
+Application has been opened on 10-05-2022 18:34:50
+The logic gate simulator button has been opened 10-05-2022 18:34:51
+Application has been opened on 10-05-2022 18:35:03
+The logic gate simulator button has been opened 10-05-2022 18:35:04
+Application has been opened on 10-05-2022 18:35:18
+The logic gate simulator button has been opened 10-05-2022 18:35:19
+Application has been opened on 10-05-2022 18:35:35
+The logic gate simulator button has been opened 10-05-2022 18:35:36
+Application has been opened on 10-05-2022 18:35:45
+The logic gate simulator button has been opened 10-05-2022 18:35:46
+Application has been opened on 10-05-2022 18:40:06
+The logic gate simulator button has been opened 10-05-2022 18:40:08
+Application has been opened on 10-05-2022 18:40:30
+The logic gate simulator button has been opened 10-05-2022 18:40:35
+Application has been opened on 10-05-2022 18:42:22
+The logic gate simulator button has been opened 10-05-2022 18:42:23
+Application has been opened on 10-05-2022 18:43:24
+The logic gate simulator button has been opened 10-05-2022 18:43:25
+Application has been opened on 10-05-2022 18:45:40
+The logic gate simulator button has been opened 10-05-2022 18:45:41
+Application has been opened on 10-05-2022 18:46:25
+The logic gate simulator button has been opened 10-05-2022 18:46:26
+Application has been opened on 10-05-2022 18:47:13
+The logic gate simulator button has been opened 10-05-2022 18:47:14
+Application has been opened on 10-05-2022 18:47:56
+The logic gate simulator button has been opened 10-05-2022 18:47:57
+Application has been opened on 10-05-2022 18:49:41
+The logic gate simulator button has been opened 10-05-2022 18:49:42
+Application has been opened on 10-05-2022 18:50:45
+The logic gate simulator button has been opened 10-05-2022 18:50:46
+Application has been opened on 10-05-2022 18:51:09
+The logic gate simulator button has been opened 10-05-2022 18:51:10
+Application has been opened on 10-05-2022 18:51:54
+The logic gate simulator button has been opened 10-05-2022 18:51:55
+Application has been opened on 10-05-2022 18:52:23
+The logic gate simulator button has been opened 10-05-2022 18:52:24
+Application has been opened on 10-05-2022 18:52:35
+The logic gate simulator button has been opened 10-05-2022 18:52:37
+Application has been opened on 10-05-2022 18:53:20
+The logic gate simulator button has been opened 10-05-2022 18:53:21
+Application has been opened on 10-05-2022 18:53:47
+The logic gate simulator button has been opened 10-05-2022 18:53:48
+Application has been opened on 10-05-2022 18:54:06
+The logic gate simulator button has been opened 10-05-2022 18:54:07
+Application has been opened on 10-05-2022 18:55:34
+The logic gate simulator button has been opened 10-05-2022 18:55:36
+Application has been opened on 10-05-2022 18:55:57
+The logic gate simulator button has been opened 10-05-2022 18:55:58
+Application has been opened on 10-05-2022 18:56:11
+The logic gate simulator button has been opened 10-05-2022 18:56:12
+Application has been opened on 10-05-2022 18:57:04
+The logic gate simulator button has been opened 10-05-2022 18:57:06
+Application has been opened on 10-05-2022 18:57:45
+The logic gate simulator button has been opened 10-05-2022 18:57:46
+Application has been opened on 10-05-2022 18:58:28
+The logic gate simulator button has been opened 10-05-2022 18:58:29
+Application has been opened on 10-05-2022 18:58:52
+The logic gate simulator button has been opened 10-05-2022 18:58:53
+Application has been opened on 10-05-2022 18:59:35
+The logic gate simulator button has been opened 10-05-2022 18:59:36
+Application has been opened on 10-05-2022 19:02:08
+The logic gate simulator button has been opened 10-05-2022 19:02:09
+Application has been opened on 10-05-2022 19:02:21
+The logic gate simulator button has been opened 10-05-2022 19:02:22
+Application has been opened on 10-05-2022 19:02:33
+The logic gate simulator button has been opened 10-05-2022 19:02:34
+Application has been opened on 10-05-2022 19:02:50
+The logic gate simulator button has been opened 10-05-2022 19:02:52
+Application has been opened on 10-05-2022 19:03:02
+The logic gate simulator button has been opened 10-05-2022 19:03:03
+Application has been opened on 10-05-2022 19:03:13
+The logic gate simulator button has been opened 10-05-2022 19:03:15
+Application has been opened on 10-05-2022 19:03:31
+The logic gate simulator button has been opened 10-05-2022 19:03:32
+Application has been opened on 10-05-2022 19:03:42
+The logic gate simulator button has been opened 10-05-2022 19:03:43
+Application has been opened on 10-05-2022 19:03:57
+The logic gate simulator button has been opened 10-05-2022 19:03:58
+Application has been opened on 10-05-2022 19:05:34
+The logic gate simulator button has been opened 10-05-2022 19:05:35
+Application has been opened on 10-05-2022 19:05:52
+The logic gate simulator button has been opened 10-05-2022 19:05:53
+Application has been opened on 10-05-2022 19:06:12
+The logic gate simulator button has been opened 10-05-2022 19:06:13
+Application has been opened on 10-05-2022 19:06:55
+The history button has been opened 10-05-2022 19:06:58
+Application has been opened on 10-05-2022 19:07:03
+The logic gate simulator button has been opened 10-05-2022 19:07:04
+Application has been opened on 10-05-2022 19:07:31
+The logic gate simulator button has been opened 10-05-2022 19:07:32
+Application has been opened on 10-05-2022 19:07:52
+The logic gate simulator button has been opened 10-05-2022 19:07:52
+Application has been opened on 10-05-2022 19:08:10
+The logic gate simulator button has been opened 10-05-2022 19:08:11
+Application has been opened on 10-05-2022 19:09:27
+The logic gate simulator button has been opened 10-05-2022 19:09:28
+Application has been opened on 10-05-2022 19:10:18
+The logic gate simulator button has been opened 10-05-2022 19:10:19
+Application has been opened on 10-05-2022 19:10:29
+The logic gate simulator button has been opened 10-05-2022 19:10:32
+Application has been opened on 10-05-2022 19:11:24
+The logic gate simulator button has been opened 10-05-2022 19:11:25
+Application has been opened on 10-05-2022 19:12:41
+The logic gate simulator button has been opened 10-05-2022 19:12:43
+Application has been opened on 10-05-2022 19:13:06
+The logic gate simulator button has been opened 10-05-2022 19:13:08
+Application has been opened on 10-05-2022 19:13:26
+The logic gate simulator button has been opened 10-05-2022 19:13:27
+Application has been opened on 10-05-2022 19:13:54
+The logic gate simulator button has been opened 10-05-2022 19:13:56
+Application has been opened on 10-05-2022 19:14:07
+The logic gate simulator button has been opened 10-05-2022 19:14:08
+Application has been opened on 10-05-2022 19:14:17
+The logic gate simulator button has been opened 10-05-2022 19:14:18
+Application has been opened on 10-05-2022 19:14:34
+The logic gate simulator button has been opened 10-05-2022 19:14:35
+Application has been opened on 10-05-2022 19:15:02
+The logic gate simulator button has been opened 10-05-2022 19:15:04
+Application has been opened on 10-05-2022 19:16:08
+The logic gate simulator button has been opened 10-05-2022 19:16:10
+Application has been opened on 10-05-2022 19:18:30
+The logic gate simulator button has been opened 10-05-2022 19:18:31
+Application has been opened on 10-05-2022 19:19:29
+The logic gate simulator button has been opened 10-05-2022 19:19:30
+Application has been opened on 10-05-2022 19:20:20
+The logic gate simulator button has been opened 10-05-2022 19:20:21
+Application has been opened on 10-05-2022 19:26:45
+The logic gate simulator button has been opened 10-05-2022 19:26:46
+Application has been opened on 10-05-2022 19:27:25
+The logic gate simulator button has been opened 10-05-2022 19:27:26
+Application has been opened on 10-05-2022 19:29:53
+The logic gate simulator button has been opened 10-05-2022 19:29:54
+Application has been opened on 10-05-2022 19:30:51
+The logic gate simulator button has been opened 10-05-2022 19:30:52
+Application has been opened on 10-05-2022 19:31:42
+The logic gate simulator button has been opened 10-05-2022 19:31:43
+Application has been opened on 10-05-2022 19:32:08
+The logic gate simulator button has been opened 10-05-2022 19:32:09
+Application has been opened on 10-05-2022 19:32:27
+The logic gate simulator button has been opened 10-05-2022 19:32:28
+Application has been opened on 10-05-2022 19:32:58
+The logic gate simulator button has been opened 10-05-2022 19:32:59
+Application has been opened on 10-05-2022 19:33:26
+The logic gate simulator button has been opened 10-05-2022 19:33:27
+Application has been opened on 10-05-2022 19:34:16
+The logic gate simulator button has been opened 10-05-2022 19:34:17
+Application has been opened on 10-05-2022 19:34:46
+The logic gate simulator button has been opened 10-05-2022 19:34:48
+Application has been opened on 10-05-2022 19:35:04
+The logic gate simulator button has been opened 10-05-2022 19:35:05
+Application has been opened on 10-05-2022 19:35:33
+The logic gate simulator button has been opened 10-05-2022 19:35:34
+Application has been opened on 10-05-2022 19:37:37
+The logic gate simulator button has been opened 10-05-2022 19:37:38
+Application has been opened on 10-05-2022 19:40:33
+The logic gate simulator button has been opened 10-05-2022 19:40:35
+Application has been opened on 10-05-2022 19:41:10
+The logic gate simulator button has been opened 10-05-2022 19:41:11
+Application has been opened on 10-05-2022 19:41:28
+The logic gate simulator button has been opened 10-05-2022 19:41:30
+Application has been opened on 10-05-2022 19:44:31
+The logic gate simulator button has been opened 10-05-2022 19:44:33
+Application has been opened on 10-05-2022 19:45:32
+The logic gate simulator button has been opened 10-05-2022 19:45:33
+Application has been opened on 10-05-2022 19:45:57
+The logic gate simulator button has been opened 10-05-2022 19:46:11
+Application has been opened on 10-05-2022 19:50:26
+The logic gate simulator button has been opened 10-05-2022 19:50:27
+The history button has been opened 10-05-2022 19:50:29
+Application has been opened on 10-05-2022 19:51:23
+The logic gate simulator button has been opened 10-05-2022 19:51:24
+Application has been opened on 10-05-2022 19:55:05
+The logic gate simulator button has been opened 10-05-2022 19:55:06
+Application has been opened on 10-05-2022 19:55:41
+Application has been opened on 10-05-2022 20:00:08
+The logic gate simulator button has been opened 10-05-2022 20:00:09
+Application has been opened on 10-05-2022 20:01:03
+The logic gate simulator button has been opened 10-05-2022 20:01:04
+Application has been opened on 10-05-2022 20:01:27
+The logic gate simulator button has been opened 10-05-2022 20:01:29
+Application has been opened on 10-05-2022 20:02:29
+The logic gate simulator button has been opened 10-05-2022 20:02:31
+The file:  null.pdf has been saved on: 10-05-2022 20:02:35
+Application has been opened on 10-05-2022 20:03:21
+The logic gate simulator button has been opened 10-05-2022 20:03:23
+Application has been opened on 10-05-2022 20:03:41
+The logic gate simulator button has been opened 10-05-2022 20:03:43
+Application has been opened on 10-05-2022 20:04:10
+The logic gate simulator button has been opened 10-05-2022 20:04:13
+Application has been opened on 10-05-2022 20:04:28
+The logic gate simulator button has been opened 10-05-2022 20:04:30
+Application has been opened on 10-05-2022 20:04:42
+The logic gate simulator button has been opened 10-05-2022 20:04:43
+Application has been opened on 10-05-2022 20:05:35
+The logic gate simulator button has been opened 10-05-2022 20:05:36
+Application has been opened on 10-05-2022 20:06:05
+The logic gate simulator button has been opened 10-05-2022 20:06:07
+Application has been opened on 10-05-2022 20:06:19
+The logic gate simulator button has been opened 10-05-2022 20:06:21
+Application has been opened on 10-05-2022 20:06:40
+The logic gate simulator button has been opened 10-05-2022 20:06:41
+Application has been opened on 10-05-2022 20:07:04
+The logic gate simulator button has been opened 10-05-2022 20:07:06
+The file:  null.pdf has been saved on: 10-05-2022 20:08:12
+Application has been opened on 10-05-2022 20:10:06
+The logic gate simulator button has been opened 10-05-2022 20:10:09
+The file:  test.pdf has been saved on: 10-05-2022 20:10:14
+Application has been opened on 10-05-2022 20:13:11
+The logic gate simulator button has been opened 10-05-2022 20:13:12
+Application has been opened on 10-05-2022 20:13:18
+The history button has been opened 10-05-2022 20:13:22
+Application has been opened on 10-05-2022 20:14:46
+Application has been opened on 10-05-2022 20:15:08
+The logic gate simulator button has been opened 10-05-2022 20:15:11
+Application has been opened on 10-05-2022 20:15:17
+The history button has been opened 10-05-2022 20:15:19

@@ -27,8 +27,8 @@ public class LocalFileHistory {
      LocalDateTime openTime = LocalDateTime.now();
      DateTimeFormatter openTimeReadable = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
      String formattedDate = openTime.format(openTimeReadable);
-     System.out.println(Main.filenameInputtedByUser());
-     fileWriter.write("The file:  "+ Main.filenameInputtedByUser()+".pdf"+" has been saved on: " + formattedDate+"\n");
+     System.out.println(GateScenePane.filenameInputtedByUser());
+     fileWriter.write("The file:  "+ GateScenePane.filenameInputtedByUser()+".pdf"+" has been saved on: " + formattedDate+"\n");
      fileWriter.close();
 
      return null;
