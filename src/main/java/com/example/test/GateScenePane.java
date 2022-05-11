@@ -32,13 +32,13 @@ public class GateScenePane extends StackPane
     private Text title = new Text("xGate");
     private Text title2 = new Text("xGate#");
     private Text content = new Text("content");///This is new path that is created
-    private Text inputAmountUniversalInputs = new Text("Input the amount of universal inputs:");
+    private Text NANDGate2Input = new Text("2 Input NAND Gate:");
     public static String amountInputs; ///String to int have to convert..
-    private Label inputAmountUniversalInputsLabel= new Label("Input amount universal inputs:");
+    private Label inputAmountUniversalInputsLabel= new Label("2 Input NAND Gate:");
     private static TextField inputAmountUniversalInputsTextField = new TextField(amountInputs);
-    private Text inputAmountGates = new Text("Input the amount of gates:");
+    private Text ANDGate2Input = new Text("2 Input AND Gate:");
     public static String amountGates; ///String to int have to convert...
-    private Label inputAmountGatesLabel= new Label("Input the amount of gates:");
+    private Label inputAmountGatesLabel= new Label("2 Input AND Gate:");
     private static TextField inputAmountGatesTextField = new TextField(amountGates);
     private Text inputTypeGate = new Text("Input the type of gate:");
     public static String inputTypeGates; ///String to int have to convert...
@@ -92,8 +92,7 @@ public class GateScenePane extends StackPane
 
     private static int userInputtedGateNumber; ///Gate number this will increment as instances iterate
     private static int userInputtedICNumber;   ///Ic number this will increment as instances iterate
-
-
+    private int selectedByUserGateImage;
     public GateScenePane()
     {
         userInputtedGateNumber=2;
@@ -124,10 +123,10 @@ public class GateScenePane extends StackPane
         content.setFill(Color.WHITE);
 
         ///Text box for terminal questions
-        inputAmountUniversalInputs.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputAmountUniversalInputs.setFill(Color.WHITE);
-        inputAmountGates.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
-        inputAmountGates.setFill(Color.WHITE);
+        NANDGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        NANDGate2Input.setFill(Color.WHITE);
+        ANDGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        ANDGate2Input.setFill(Color.WHITE);
         inputTypeGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
         inputTypeGate.setFill(Color.WHITE);
         inputInputsGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
@@ -285,6 +284,7 @@ public class GateScenePane extends StackPane
 
         visualSymbolsTerminal.setOnAction(actionEvent ->
         {
+            System.out.println("Gate Container");
             terminalInputField.setVisible(false);
             truthTable.setVisible(false);
             labelTruthTable.setVisible(false);
@@ -345,25 +345,57 @@ public class GateScenePane extends StackPane
         gateTerminalCommands.setTranslateX(20.0);///Moves the box x orientation
         gateTerminalCommands.setTranslateY(200.0);///Moves the box y orientation
 
+        ///Image toolbox
+        ImageView nandGate2InputImage = new ImageView("file:src/main/java/com/example/test/NANDGate.png");
+        nandGate2InputImage.setFitWidth(150.0);
+        nandGate2InputImage.setFitHeight(150.0);
+        nandGate2InputImage.setPreserveRatio(true);
+        nandGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        nandGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input NAND Gate!"); // change functionality
+            selectedByUserGateImage=1;
+        });
+
+        ImageView andGate2InputImage = new ImageView("file:src/main/java/com/example/test/ANDGate.png");
+        andGate2InputImage.setFitWidth(150.0);
+        andGate2InputImage.setFitHeight(150.0);
+        andGate2InputImage.setPreserveRatio(true);
+        andGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        andGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input AND Gate!"); // change functionality
+            selectedByUserGateImage=2;
+        });
+        
+
         ///Gridpane inside terminal main properties
         terminalInputField.setMinSize(350,150);
         terminalInputField.setPadding(new Insets(15,15,15,15));
         terminalInputField.setVgap(10.0);
         terminalInputField.setHgap(10.0);
         terminalInputField.setAlignment(Pos.CENTER);
-        terminalInputField.add(inputAmountUniversalInputs, 0, 0);
-        terminalInputField.add(inputAmountUniversalInputsTextField, 1, 0);
+        terminalInputField.add(NANDGate2Input, 0, 0);
+        terminalInputField.add(nandGate2InputImage, 1, 0);
+        terminalInputField.add(ANDGate2Input, 0, 1);
+        terminalInputField.add(andGate2InputImage, 1, 1);
+        terminalInputField.setStyle("-fx-background-color: #002082; " +
+                "-fx-grid-lines-visible: true"
+        );
+
+        /*
         terminalInputField.add(inputAmountGates, 0, 1);
         terminalInputField.add(inputAmountGatesTextField, 1, 1);
         terminalInputField.add(inputTypeGate, 0, 2);
         terminalInputField.add(inputTypeTextField, 1, 2);
         terminalInputField.add(inputInputsGate, 0, 3);
         terminalInputField.add(inputInputsTextField, 1, 3);
-        terminalInputField.add(title, 0, 4);
+        terminalInputField.add(nandGate2InputImage ,0, 4);
         terminalInputField.add(title2, 1, 4);
         terminalInputField.setStyle("-fx-background-color: #002082; " +
                                     "-fx-grid-lines-visible: true"
                                    );
+                                   */
         ///Table View for terminal table
 
         labelTruthTable.setFont(new Font("Arial", 20));
@@ -382,8 +414,6 @@ public class GateScenePane extends StackPane
         ///This is the container of objects...
         ///NAND_7400_IC();
         ///NAND_2_Input_Single_Gate();
-
-
 
         vboxTruthTable.setSpacing(5);
         vboxTruthTable.setPadding(new Insets(10, 0, 0, 10));
@@ -425,7 +455,6 @@ public void NAND_7400_IC()
 
     }
 
-
     private Canvas createCanvasGrid()
     {
 
@@ -441,12 +470,12 @@ public void NAND_7400_IC()
                     public void handle(MouseEvent e)
                     {
 
-                        int gateSelection = 1;///make into user input
-                        switch (gateSelection)
+
+                        switch (selectedByUserGateImage)
                         {
-                            case 1 ->
+                            case 1 -> ///NAND Gate 2 Input
                             {
-                                System.out.println("Gate selection:" + gateSelection);
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
                                 ///NAND Gate Entry
                                 NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
                                 gc.setFill(Color.RED);
@@ -464,12 +493,57 @@ public void NAND_7400_IC()
                                 gc.setFill(Color.RED);
                                 gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 5);
                             }
-                            case 2 -> System.out.println("Gate selection:" + gateSelection);
-                            case 3 -> System.out.println("Gate selection:" + gateSelection);
-                            case 4 -> System.out.println("Gate selection:" + gateSelection);
-                            case 5 -> System.out.println("Gate selection:" + gateSelection);
-                            case 6 -> System.out.println("Gate selection:" + gateSelection);
-                            case 7 -> System.out.println("Gate selection:" + gateSelection);
+                            case 2 -> ///AND Gate 2 Input
+                                {
+                                    System.out.println("Gate selection:" + selectedByUserGateImage);
+
+                                }
+                            case 3 -> ///OR Gate 2 Input
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+
+                            }
+
+                            case 4 -> ///XOR Gate 2 Input
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+
+                            }
+
+                            case 5 -> ///NOR Gate 2 Input
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+
+                            }
+
+                            case 6 -> ///XNOR Gate 2 Input
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+                            }
+
+                            case 7 -> ///NOT Gate/Inverter
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+                            }
+
+                            case 8 -> ///Buffer
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+                            }
+
+                            case 9 -> ///NAND_7400_IC
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+                                NAND_7400_IC();
+                            }
+
+                            case 10 -> ///AND_7408_IC
+                            {
+                                System.out.println("Gate selection:" + selectedByUserGateImage);
+                                ///AND_7408_IC();
+                            }
+
+
                             default -> System.out.println("Not valid gate selection!");
                         }
 
