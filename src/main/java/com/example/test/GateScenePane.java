@@ -1,13 +1,21 @@
 package com.example.test;
 import com.example.test.Gates.NAND_2_Input;
 import com.example.test.Gates.NAND_7400;
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -50,7 +58,9 @@ public class GateScenePane extends StackPane
     private Button openVisual= new Button("Open Blueprint Workspace"); ///Redirects to home
     private HBox buttonTopVisualPane=new HBox(title,openTerminal,closeWindow);
     private HBox buttonTopTerminalPane=new HBox(terminalInputSetup,terminalTableResults,visualSymbolsTerminal,closeTerminal);
-    private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content);
+    private Canvas canvasVisual = createCanvasGrid();
+
+    private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content,canvasVisual);
     private GridPane terminalInputField=new GridPane();
     private GridPane saveInputField=new GridPane();
 
@@ -82,6 +92,7 @@ public class GateScenePane extends StackPane
 
     private static int userInputtedGateNumber; ///Gate number this will increment as instances iterate
     private static int userInputtedICNumber;   ///Ic number this will increment as instances iterate
+
 
     public GateScenePane()
     {
@@ -295,6 +306,13 @@ public class GateScenePane extends StackPane
         gateVisualVBox.setTranslateX(255.0);
         gateVisualVBox.setTranslateY(100.0);///Moves the box y orientation
 
+
+        ///Canvas graphics content
+        GraphicsContext gc = canvasVisual.getGraphicsContext2D();
+        inputDiagrams(gc);
+
+
+
         ///HBox top of terminal that has buttons visual
         HBox.setMargin(closeTerminal,new Insets(0,0,0,458));
         buttonTopTerminalPane.setSpacing(40);
@@ -367,7 +385,6 @@ public class GateScenePane extends StackPane
 
 
 
-
         vboxTruthTable.setSpacing(5);
         vboxTruthTable.setPadding(new Insets(10, 0, 0, 10));
         vboxTruthTable.setLayoutX(900.0);
@@ -399,6 +416,104 @@ public void NAND_7400_IC()
     logicGate.gateOutput_3Y();
     logicGate.gateOutput_4Y();
 }
+
+    private void inputDiagrams(GraphicsContext gc)
+    {
+        gc.setFill(Color.BLACK);
+        gc.setLineWidth(1.0);
+
+
+    }
+
+
+    private Canvas createCanvasGrid()
+    {
+
+        Canvas canvas = new Canvas(725, 1000);
+        GraphicsContext gc = canvas.getGraphicsContext2D() ;
+        gc.setStroke(Color.WHITE);
+        gc.stroke();
+        gc.setLineWidth(1.0);
+
+        canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<>() {
+                    @Override
+                    public void handle(MouseEvent e)
+                    {
+
+                        int gateSelection = 1;///make into user input
+                        switch (gateSelection)
+                        {
+                            case 1 ->
+                            {
+                                System.out.println("Gate selection:" + gateSelection);
+                                ///NAND Gate Entry
+                                NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                gc.setFill(Color.RED);
+                                gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                gc.setFill(Color.BLUE);
+                                gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                gc.setFill(Color.RED);
+                                gc.fillRect(e.getX() + 5.5, e.getY(), 20, 5);
+                                gc.setFill(Color.GREEN);
+                                gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                gc.setFill(Color.RED);
+                                gc.fillRect(e.getX() + 5.5, e.getY() + 73, 20, 5);
+                                gc.setFill(Color.YELLOW);
+                                gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                gc.setFill(Color.RED);
+                                gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 5);
+                            }
+                            case 2 -> System.out.println("Gate selection:" + gateSelection);
+                            case 3 -> System.out.println("Gate selection:" + gateSelection);
+                            case 4 -> System.out.println("Gate selection:" + gateSelection);
+                            case 5 -> System.out.println("Gate selection:" + gateSelection);
+                            case 6 -> System.out.println("Gate selection:" + gateSelection);
+                            case 7 -> System.out.println("Gate selection:" + gateSelection);
+                            default -> System.out.println("Not valid gate selection!");
+                        }
+
+                    }
+                });
+
+        /*
+        canvas.hoverProperty().addListener((ChangeListener<Boolean>) (observable, oldValue, newValue) -> {
+            if (newValue)
+            {
+                gc.setFill(Color.LIGHTBLUE);
+                gc.fillRect(220, 30, 50, 50);
+                gc.fillPolygon(new double[]{220, 270, 220},
+                        new double[]{120, 170, 170}, 3);
+
+            }
+
+            else
+            {
+                gc.setFill(Color.WHITE);
+                gc.fillRect(220, 30, 50, 50);
+                gc.fillPolygon(new double[]{220, 270, 220},
+                        new double[]{120, 170, 170}, 3);
+
+            }
+        });
+        */
+
+        for (double x = 0.5; x < 729; x+=10)
+        {
+            gc.moveTo(x, 0);
+            gc.lineTo(x, 1000);
+            gc.stroke();
+        }
+
+        for (double y = 0.5; y < 1500; y+=10)
+        {
+            gc.moveTo(0, y);
+            gc.lineTo(1000, y);
+            gc.stroke();
+        }
+
+        return canvas;
+    }
 
 
 
