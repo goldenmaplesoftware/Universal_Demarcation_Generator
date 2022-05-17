@@ -49,7 +49,7 @@ public class Main extends Application
 
         ///Title Properties
         titleName.setFont(Font.font("Arial", FontWeight.findByWeight(25), FontPosture.REGULAR,35));
-        titleName.setFill(Color.RED);
+        titleName.setFill(Color.YELLOW);
         titleName.setStroke(Color.BLACK);
         StackPane.setAlignment(titleName, Pos.TOP_CENTER);
 

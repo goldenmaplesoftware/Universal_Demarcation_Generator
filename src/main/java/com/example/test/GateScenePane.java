@@ -33,6 +33,13 @@ public class GateScenePane extends StackPane
     private Text title2 = new Text("xGate#");
     private Text content = new Text("content");///This is new path that is created
     private Text NANDGate2Input = new Text("2 Input NAND Gate:");
+    private Text ORGate2Input = new Text("2 Input OR Gate:");
+    private Text NORGate2Input = new Text("2 Input NOR Gate:");
+    private Text XORGate2Input = new Text("2 Input XOR Gate:");
+    private Text XNORGate2Input = new Text("2 Input XNOR Gate:");
+    private Text NOTGateInput = new Text("NOT/Inverter Gate:");
+    private Text BUFFERInput = new Text("Buffer Gate:");
+
     public static String amountInputs; ///String to int have to convert..
     private Label inputAmountUniversalInputsLabel= new Label("2 Input NAND Gate:");
     private static TextField inputAmountUniversalInputsTextField = new TextField(amountInputs);
@@ -50,18 +57,26 @@ public class GateScenePane extends StackPane
     private static TextField inputInputsTextField = new TextField(inputInputsGates);
     private Button closeWindow= new Button("X"); ///Redirects to home
     private Button closeTerminal= new Button("X"); ///Redirects to home
-    private Button terminalInputSetup= new Button("Terminal Main"); ///Container of visual elements produced
+    private Button closeTerminal2= new Button("X"); ///Redirects to home
+    private Button closeTerminal3= new Button("X"); ///Redirects to home
+    private Button terminalInputSetup= new Button("Gate Container"); ///Container of visual elements produced
 
-    private Button visualSymbolsTerminal= new Button("Gate Container"); ///Container of visual elements produced
-    private Button terminalTableResults= new Button("Terminal Table"); ///Container of visual elements produced
-    private Button openTerminal= new Button("Open Terminal"); ///Redirects to home
+    private Button visualSymbolsTerminal= new Button("Terminal"); ///Container of visual elements produced
+    private Button terminalTableResults= new Button("Truth Table"); ///Container of visual elements produced
+    private Button openTerminal= new Button("Add Logic Gates"); ///Open logic gate symbol pane
+    private Button openTerminal2= new Button("Add Source Components"); ///Open source component pane
+    private Button openTerminal3= new Button("Add Components"); ///Open source component pane
     private Button openVisual= new Button("Open Blueprint Workspace"); ///Redirects to home
     private HBox buttonTopVisualPane=new HBox(title,openTerminal,closeWindow);
-    private HBox buttonTopTerminalPane=new HBox(terminalInputSetup,terminalTableResults,visualSymbolsTerminal,closeTerminal);
+    private HBox buttonTopTerminalPane=new HBox(terminalInputSetup,closeTerminal);
+    private HBox buttonTopTerminalPane2=new HBox(closeTerminal2);
+    private HBox buttonTopTerminalPane3=new HBox(closeTerminal3);
     private Canvas canvasVisual = createCanvasGrid();
 
     private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content,canvasVisual);
     private GridPane terminalInputField=new GridPane();
+    private GridPane terminalInputField2=new GridPane();
+    private GridPane terminalInputField3=new GridPane();
     private GridPane saveInputField=new GridPane();
 
     ////private VBox gateTerminalCommands =new VBox(closeTerminal,title2,inputAmountUniversalInputs,inputAmountGates,inputTypeGate,inputInputGate);
@@ -83,6 +98,8 @@ public class GateScenePane extends StackPane
     private static TableView truthTable = new TableView();
 
     private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField);
+    private VBox gateTerminalCommands2 =new VBox(buttonTopTerminalPane2,terminalInputField2);
+    private VBox gateTerminalCommands3 =new VBox(buttonTopTerminalPane3,terminalInputField3);
     private final VBox vboxTruthTable = new VBox();
     private final Label labelTruthTable = new Label("Truth Table");
     public static String filenameInputtedByUser()
@@ -98,6 +115,8 @@ public class GateScenePane extends StackPane
         userInputtedGateNumber=2;
         ///Terminal stuff not visible
         terminalInputField.setVisible(false);
+        terminalInputField2.setVisible(true);
+        terminalInputField3.setVisible(false);
         truthTable.setVisible(false);
         labelTruthTable.setVisible(false);
 
@@ -108,6 +127,9 @@ public class GateScenePane extends StackPane
         toolBarMain.getItems().add(writeSingleFileButton);
         toolBarMain.getItems().add(new Separator());
         toolBarMain.getItems().add(openTerminal);
+        toolBarMain.getItems().add(openTerminal2);
+        toolBarMain.getItems().add(openTerminal3);
+        toolBarMain.getItems().add(new Separator());
         toolBarMain.getItems().add(openVisual);
         ///Scroll Pane inside the window
         ScrollPane scrollPane = new ScrollPane();
@@ -125,6 +147,19 @@ public class GateScenePane extends StackPane
         ///Text box for terminal questions
         NANDGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
         NANDGate2Input.setFill(Color.WHITE);
+        ORGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        ORGate2Input.setFill(Color.WHITE);
+        NORGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        NORGate2Input.setFill(Color.WHITE);
+        XORGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        XORGate2Input.setFill(Color.WHITE);
+        XNORGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        XNORGate2Input.setFill(Color.WHITE);        ORGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        NOTGateInput.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        NOTGateInput.setFill(Color.WHITE);
+        BUFFERInput.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
+        BUFFERInput.setFill(Color.WHITE);
+
         ANDGate2Input.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
         ANDGate2Input.setFill(Color.WHITE);
         inputTypeGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
@@ -203,20 +238,52 @@ public class GateScenePane extends StackPane
         closeTerminal.setOnAction(actionEvent ->
         {
             gateTerminalCommands.setVisible(false);
-            System.out.println("Terminal closed");
+            System.out.println("Logic Gate Symbol Importer closed");
+        });
+
+
+        closeTerminal2.setOnAction(actionEvent ->
+        {
+            gateTerminalCommands2.setVisible(false);
+            System.out.println("Add Source Importer closed");
+        });
+
+        closeTerminal3.setOnAction(actionEvent ->
+        {
+            gateTerminalCommands3.setVisible(false);
+            System.out.println("Add Components Importer closed");
         });
 
         openTerminal.setOnAction(actionEvent ->
         {
             gateTerminalCommands.setVisible(true);
-            System.out.println("Terminal opened");
+            gateTerminalCommands2.setVisible(false);
+            gateTerminalCommands3.setVisible(false);
+            System.out.println("Logic Gate Symbol Importer opened");
         });
 
         openVisual.setOnAction(actionEvent ->
         {
+            System.out.println("Open visual field");
             gateVisualVBox.setVisible(true);
-            System.out.println("Visual pane opened");
         });
+
+        openTerminal2.setOnAction(actionEvent ->
+        {
+            gateTerminalCommands2.setVisible(true);
+            gateTerminalCommands.setVisible(false);
+            gateTerminalCommands3.setVisible(false);
+            System.out.println("Source components importer opened");
+        });
+
+        openTerminal3.setOnAction(actionEvent ->
+        {
+            gateTerminalCommands3.setVisible(true);
+            gateTerminalCommands.setVisible(false);
+            gateTerminalCommands2.setVisible(false);
+            System.out.println("Components importer opened");
+        });
+
 
         writeSingleFileButton.setOnAction(actionEvent ->
         {
@@ -268,29 +335,15 @@ public class GateScenePane extends StackPane
 
         terminalInputSetup.setOnAction(actionEvent ->
         {
-            System.out.println("Terminal Main is open");
+            System.out.println("Logic Gate Symbol Importer is open");
             terminalInputField.setVisible(true);
             truthTable.setVisible(false);
             labelTruthTable.setVisible(false);
         });
 
-        terminalTableResults.setOnAction(actionEvent ->
-        {
-            System.out.println("Terminal Table is open");
-            truthTable.setVisible(true);
-            labelTruthTable.setVisible(true);
-            terminalInputField.setVisible(false);
-        });
-
-        visualSymbolsTerminal.setOnAction(actionEvent ->
-        {
-            System.out.println("Gate Container");
-            terminalInputField.setVisible(false);
-            truthTable.setVisible(false);
-            labelTruthTable.setVisible(false);
-        });
 
         ///VBox visual properties
+        gateVisualVBox.setVisible(false);
         gateVisualVBox.setAlignment(Pos.CENTER);
         gateVisualVBox.setSpacing(10);
         gateVisualVBox.setPadding(new Insets(10, 15, 15, 15));
@@ -322,6 +375,22 @@ public class GateScenePane extends StackPane
                 "-fx-border-width: 2.25;" +
                 "-fx-border-color: #3f4040;");
 
+        HBox.setMargin(closeTerminal2,new Insets(0,0,0,458));
+        buttonTopTerminalPane2.setSpacing(40);
+        buttonTopTerminalPane2.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-background-color: #262625;"+
+                "-fx-border-width: 2.25;" +
+                "-fx-border-color: #3f4040;");
+
+        HBox.setMargin(closeTerminal3,new Insets(0,0,0,458));
+        buttonTopTerminalPane3.setSpacing(40);
+        buttonTopTerminalPane3.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-background-color: #262625;"+
+                "-fx-border-width: 2.25;" +
+                "-fx-border-color: #3f4040;");
+
         ///HBox top of visual that has buttons visual
         HBox.setMargin(closeWindow,new Insets(0,0,0,458));
         buttonTopVisualPane.setSpacing(40);
@@ -332,6 +401,7 @@ public class GateScenePane extends StackPane
                 "-fx-border-color: #3f4040;");
 
         ///VBox terminal properties
+        gateTerminalCommands.setVisible(false);
         gateTerminalCommands.setAlignment(Pos.TOP_CENTER);
         gateTerminalCommands.setSpacing(10);
         gateTerminalCommands.setPadding(new Insets(10, 10, 10, 10));
@@ -345,7 +415,38 @@ public class GateScenePane extends StackPane
         gateTerminalCommands.setTranslateX(20.0);///Moves the box x orientation
         gateTerminalCommands.setTranslateY(200.0);///Moves the box y orientation
 
+        ///VBox terminal 2 properties
+        gateTerminalCommands.setVisible(false);
+        gateTerminalCommands2.setAlignment(Pos.TOP_CENTER);
+        gateTerminalCommands2.setSpacing(10);
+        gateTerminalCommands2.setPadding(new Insets(10, 10, 10, 10));
+        gateTerminalCommands2.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-background-color: #201330;"+
+                "-fx-border-width: 2.25;" +
+                "-fx-border-color: #3f4040;");
+        gateTerminalCommands2.setMaxWidth(1000);
+        gateTerminalCommands2.setMaxHeight(300);
+        gateTerminalCommands2.setTranslateX(20.0);///Moves the box x orientation
+        gateTerminalCommands2.setTranslateY(200.0);///Moves the box y orientation
+
+        ///VBox terminal 3 properties
+        gateTerminalCommands.setVisible(false);
+        gateTerminalCommands3.setAlignment(Pos.TOP_CENTER);
+        gateTerminalCommands3.setSpacing(10);
+        gateTerminalCommands3.setPadding(new Insets(10, 10, 10, 10));
+        gateTerminalCommands3.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-background-color: #365330;"+
+                "-fx-border-width: 2.25;" +
+                "-fx-border-color: #3f4040;");
+        gateTerminalCommands3.setMaxWidth(1000);
+        gateTerminalCommands3.setMaxHeight(300);
+        gateTerminalCommands3.setTranslateX(20.0);///Moves the box x orientation
+        gateTerminalCommands3.setTranslateY(200.0);///Moves the box y orientation
+
         ///Image toolbox
+
         ImageView nandGate2InputImage = new ImageView("file:src/main/java/com/example/test/NANDGate.png");
         nandGate2InputImage.setFitWidth(150.0);
         nandGate2InputImage.setFitHeight(150.0);
@@ -367,7 +468,87 @@ public class GateScenePane extends StackPane
             System.out.println("User selected the 2 Input AND Gate!"); // change functionality
             selectedByUserGateImage=2;
         });
-        
+
+        ImageView orGate2InputImage = new ImageView("file:src/main/java/com/example/test/OR.png");
+        orGate2InputImage.setFitWidth(150.0);
+        orGate2InputImage.setFitHeight(150.0);
+        orGate2InputImage.setPreserveRatio(true);
+        orGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        orGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input OR Gate!"); // change functionality
+            selectedByUserGateImage=3;
+        });
+
+        ImageView norGate2InputImage = new ImageView("file:src/main/java/com/example/test/NOR.png");
+        norGate2InputImage.setFitWidth(150.0);
+        norGate2InputImage.setFitHeight(150.0);
+        norGate2InputImage.setPreserveRatio(true);
+        norGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        norGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input NOR Gate!"); // change functionality
+            selectedByUserGateImage=4;
+        });
+
+        ImageView xorGate2InputImage = new ImageView("file:src/main/java/com/example/test/XOR.png");
+        xorGate2InputImage.setFitWidth(150.0);
+        xorGate2InputImage.setFitHeight(150.0);
+        xorGate2InputImage.setPreserveRatio(true);
+        xorGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        xorGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input XOR Gate!"); // change functionality
+            selectedByUserGateImage=5;
+        });
+
+        ImageView xnorGate2InputImage = new ImageView("file:src/main/java/com/example/test/XNOR.png");
+        xnorGate2InputImage.setFitWidth(150.0);
+        xnorGate2InputImage.setFitHeight(150.0);
+        xnorGate2InputImage.setPreserveRatio(true);
+        xnorGate2InputImage.setPickOnBounds(true); // allows click on transparent areas
+        xnorGate2InputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the 2 Input XNOR Gate!"); // change functionality
+            selectedByUserGateImage=6;
+        });
+
+        ImageView notInputImage = new ImageView("file:src/main/java/com/example/test/NOT.png");
+        notInputImage.setFitWidth(150.0);
+        notInputImage.setFitHeight(150.0);
+        notInputImage.setPreserveRatio(true);
+        notInputImage.setPickOnBounds(true); // allows click on transparent areas
+        notInputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the NOT Gate!"); // change functionality
+            selectedByUserGateImage=7;
+        });
+
+        ImageView bufferInputImage = new ImageView("file:src/main/java/com/example/test/BUFFER.png");
+        bufferInputImage.setFitWidth(150.0);
+        bufferInputImage.setFitHeight(150.0);
+        bufferInputImage.setPreserveRatio(true);
+        bufferInputImage.setPickOnBounds(true); // allows click on transparent areas
+        bufferInputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+            System.out.println("User selected the buffer gate!"); // change functionality
+            selectedByUserGateImage=8;
+        });
+
+        ImageView junctionInputImage = new ImageView("file:src/main/java/com/example/test/junction.png");
+        junctionInputImage.setFitWidth(150.0);
+        junctionInputImage.setFitHeight(150.0);
+        junctionInputImage.setPreserveRatio(true);
+        junctionInputImage.setPickOnBounds(true); // allows click on transparent areas
+        junctionInputImage.setOnMouseClicked((MouseEvent e) ->
+        {
+
+            System.out.println("User selected the junction!"); // change functionality
+            selectedByUserGateImage=9;
+
+
+        });
+
 
         ///Gridpane inside terminal main properties
         terminalInputField.setMinSize(350,150);
@@ -375,21 +556,65 @@ public class GateScenePane extends StackPane
         terminalInputField.setVgap(10.0);
         terminalInputField.setHgap(10.0);
         terminalInputField.setAlignment(Pos.CENTER);
-        terminalInputField.add(NANDGate2Input, 0, 0);
-        terminalInputField.add(nandGate2InputImage, 1, 0);
-        terminalInputField.add(ANDGate2Input, 0, 1);
-        terminalInputField.add(andGate2InputImage, 1, 1);
+        terminalInputField.add(nandGate2InputImage, 0, 0);
+        terminalInputField.add(andGate2InputImage, 0, 1);;
+        terminalInputField.add(orGate2InputImage, 1 ,0);
+        terminalInputField.add(norGate2InputImage, 1, 1);
+        terminalInputField.add(xorGate2InputImage, 2, 0);
+        terminalInputField.add(xnorGate2InputImage, 2, 1);
+        terminalInputField.add(notInputImage, 3, 0);
+        terminalInputField.add(bufferInputImage, 3 ,1);
+        ///2,0
         terminalInputField.setStyle("-fx-background-color: #002082; " +
                 "-fx-grid-lines-visible: true"
         );
 
+
+        ///Gridpane source importer
+        terminalInputField2.setMinSize(350,150);
+        terminalInputField2.setPadding(new Insets(15,15,15,15));
+        terminalInputField2.setVgap(10.0);
+        terminalInputField2.setHgap(10.0);
+        terminalInputField2.setAlignment(Pos.CENTER);
+
+        terminalInputField2.add(junctionInputImage, 0, 0);
         /*
-        terminalInputField.add(inputAmountGates, 0, 1);
-        terminalInputField.add(inputAmountGatesTextField, 1, 1);
-        terminalInputField.add(inputTypeGate, 0, 2);
-        terminalInputField.add(inputTypeTextField, 1, 2);
-        terminalInputField.add(inputInputsGate, 0, 3);
-        terminalInputField.add(inputInputsTextField, 1, 3);
+        terminalInputField.add(andGate2InputImage, 0, 1);;
+        terminalInputField.add(orGate2InputImage, 1 ,0);
+        terminalInputField.add(norGate2InputImage, 1, 1);
+        terminalInputField.add(xorGate2InputImage, 2, 0);
+        terminalInputField.add(xnorGate2InputImage, 2, 1);
+        terminalInputField.add(notInputImage, 3, 0);
+        terminalInputField.add(bufferInputImage, 3 ,1);
+        */
+        terminalInputField2.setStyle("-fx-background-color: #102082; " +
+                "-fx-grid-lines-visible: true"
+        );
+
+        ///Componet source importer
+        terminalInputField3.setMinSize(350,150);
+        terminalInputField3.setPadding(new Insets(15,15,15,15));
+        terminalInputField3.setVgap(10.0);
+        terminalInputField3.setHgap(10.0);
+        terminalInputField3.setAlignment(Pos.CENTER);
+        /*
+        terminalInputField.add(nandGate2InputImage, 0, 0);
+        terminalInputField.add(andGate2InputImage, 0, 1);;
+        terminalInputField.add(orGate2InputImage, 1 ,0);
+        terminalInputField.add(norGate2InputImage, 1, 1);
+        terminalInputField.add(xorGate2InputImage, 2, 0);
+        terminalInputField.add(xnorGate2InputImage, 2, 1);
+        terminalInputField.add(notInputImage, 3, 0);
+        terminalInputField.add(bufferInputImage, 3 ,1);
+        */
+        terminalInputField3.setStyle("-fx-background-color: #142582; " +
+                "-fx-grid-lines-visible: true"
+        );
+
+        /*
+
+
+
         terminalInputField.add(nandGate2InputImage ,0, 4);
         terminalInputField.add(title2, 1, 4);
         terminalInputField.setStyle("-fx-background-color: #002082; " +
@@ -422,7 +647,7 @@ public class GateScenePane extends StackPane
 
         Group group=new Group(gateVisualVBox,toolbar,writePanel,vboxTruthTable);
         scrollPane.setContent(group);
-        this.getChildren().addAll(scrollPane,gateTerminalCommands);
+        this.getChildren().addAll(scrollPane,gateTerminalCommands,gateTerminalCommands2,gateTerminalCommands3);
     }
 
 
@@ -504,13 +729,13 @@ public void NAND_7400_IC()
 
                             }
 
-                            case 4 -> ///XOR Gate 2 Input
+                            case 4 -> ///NOR Gate 2 Input
                             {
                                 System.out.println("Gate selection:" + selectedByUserGateImage);
 
                             }
 
-                            case 5 -> ///NOR Gate 2 Input
+                            case 5 -> ///XOR Gate 2 Input
                             {
                                 System.out.println("Gate selection:" + selectedByUserGateImage);
 
