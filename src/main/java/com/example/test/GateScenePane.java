@@ -2,6 +2,7 @@ package com.example.test;
 import com.example.test.Gates.AND_2_Input;
 import com.example.test.Gates.NAND_2_Input;
 import com.example.test.Gates.NAND_7400;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +15,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -126,7 +128,13 @@ public class GateScenePane extends StackPane
     private static int userInputtedICNumber;   ///Ic number this will increment as instances iterate
     private int selectedByUserGateImage;
 
-    ArrayList<String> gateAmount = new ArrayList<String>();
+    ArrayList<String>  gateAmount = new ArrayList<String>();             ///All of the gates/global list
+    ArrayList<String>  NANDGateAmount = new ArrayList<String>();         ///All of the 2 input NAND gates/global list
+    ArrayList<String>  componentAmount = new ArrayList<String>();        ////All of the components/global list
+    ArrayList<String>  NANDGate2InputAmount = new ArrayList<String>();   /// All 2 input NAND Gates
+    ArrayList<Boolean> NANDGateAInputAmount = new ArrayList<Boolean>();   ///All inputs in list
+    ArrayList<Boolean> NANDGateBInputAmount = new ArrayList<Boolean>();   ///All inputs in list
+    ArrayList<Boolean> NANDGateYOutputAmount = new ArrayList<Boolean>();  ///All outputs in list
 
 
 
@@ -904,8 +912,19 @@ public class GateScenePane extends StackPane
                 new NAND_2_Input<>(NAND_2_Input.gateName(),userInputtedGateNumber,true,false,true);
         logicGate.gateNumberOutput();
         logicGate.NAND_2_Output();
-        gateAmount.add("NAND Gate");
-        System.out.println(gateAmount.size());
+        gateAmount.add("NAND Gate - 2 Input");
+        NANDGateAmount.add("NAND Gate - 2 Input");
+        componentAmount.add("NAND Gate - 2 Input");
+        NANDGateAInputAmount.add(logicGate.NAND_2_Input_A());
+        NANDGateBInputAmount.add(logicGate.NAND_2_Input_B());
+        NANDGateYOutputAmount.add(logicGate.NAND_2_Output());
+        System.out.println("\n***********\nTotal amount of Components: "+componentAmount.size());
+        System.out.println("Total amount of Gates: "+gateAmount.size());
+        System.out.println("Total amount of NAND Gates: "+NANDGateAmount.size());
+        System.out.println("\ninput A: "+NANDGateAInputAmount+
+                           "\ninput B: "+NANDGateBInputAmount+
+                           "\noutput Y:"+NANDGateYOutputAmount+
+                            "\n***********\n");
     }
 
 
@@ -959,6 +978,24 @@ public void NAND_7400_IC()
                             {
                                 System.out.println("Gate selection:" + selectedByUserGateImage);
                                 ///NAND Gate Entry
+
+                                gc.setFill(Color.YELLOW); ///Input A set colour
+                                gc.setFont(new Font(20));  ///Input A set font size
+
+                                ///A properties of text
+                                TextField localTextFieldA=new TextField();
+                                localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                gc.setFill(Color.YELLOW); ///Input B set colour
+                                gc.setFont(new Font(20));  ///Input B set font size
+
+                                ///B properties of text
+                                TextField localTextFieldB=new TextField();
+                                localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
                                 NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
                                 gc.setFill(Color.RED);
                                 gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
@@ -1072,6 +1109,9 @@ public void NAND_7400_IC()
         });
         */
 
+        /// THIS IS THE BLUE PRINT LINES
+
+        /*
         for (double x = 0.5; x < 729; x+=10)
         {
             gc.moveTo(x, 0);
@@ -1085,7 +1125,7 @@ public void NAND_7400_IC()
             gc.lineTo(1000, y);
             gc.stroke();
         }
-
+*/
         return canvas;
     }
 

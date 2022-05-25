@@ -26,7 +26,7 @@ public class NAND_2_Input<O, O1, O2, O3> {
         return gateName;
     }
 
-    public void NAND_2_Output()
+    public boolean NAND_2_Output()
     {
         //1Y
         boolean outputY = (!(inputA && inputB));
@@ -35,9 +35,16 @@ public class NAND_2_Input<O, O1, O2, O3> {
         int pin2_Convert = inputB? 1 : 0;
         int pin3_Convert = outputY ? 1 : 0;
         System.out.println("\n"+gateNumber+"!A^"+gateNumber+"!B="+gateNumber+"Y!\n"+((pin1_Convert+"^"+pin2_Convert+"="+pin3_Convert)));
+        return outputY;
     }
 
 
-
-
+    public Boolean NAND_2_Input_A()
+    {
+        return inputA;
+    }
+    public Boolean NAND_2_Input_B()
+    {
+        return inputA;
+    }
 }
