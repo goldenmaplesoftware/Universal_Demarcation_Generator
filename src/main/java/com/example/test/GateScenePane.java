@@ -1,4 +1,5 @@
 package com.example.test;
+import com.example.test.Gates.AND_2_Input;
 import com.example.test.Gates.NAND_2_Input;
 import com.example.test.Gates.NAND_7400;
 import javafx.beans.value.ChangeListener;
@@ -59,22 +60,25 @@ public class GateScenePane extends StackPane
     private Button closeTerminal= new Button("X"); ///Redirects to home
     private Button closeTerminal2= new Button("X"); ///Redirects to home
     private Button closeTerminal3= new Button("X"); ///Redirects to home
-    private Button terminalInputSetup= new Button("Gate Container"); ///Container of visual elements produced
+    private Button terminalInputSetup_left= new Button("<"); ///Container of visual elements produced
+    private Button terminalInputSetup_right= new Button(">"); ///Container of visual elements produced
 
     private Button visualSymbolsTerminal= new Button("Terminal"); ///Container of visual elements produced
     private Button terminalTableResults= new Button("Truth Table"); ///Container of visual elements produced
-    private Button openTerminal= new Button("Add Logic Gates"); ///Open logic gate symbol pane
-    private Button openTerminal2= new Button("Add Source Components"); ///Open source component pane
-    private Button openTerminal3= new Button("Add Components"); ///Open source component pane
-    private Button openVisual= new Button("Open Blueprint Workspace"); ///Redirects to home
+    private Button openTerminal= new Button(" "); ///Open logic gate symbol pane
+    private Button openTerminal2= new Button(" "); ///Open source component pane
+    private Button openTerminal3= new Button(" "); ///Open source component pane
+    private Button openMeasurements= new Button(" "); ///Make all component on-screen measurements visible
+    private Button documentInformation= new Button(" "); ///Make document information visible
+    private Button openVisual= new Button(" "); ///Open Blueprint Workspace
     private HBox buttonTopVisualPane=new HBox(title,openTerminal,closeWindow);
-    private HBox buttonTopTerminalPane=new HBox(terminalInputSetup,closeTerminal);
+    private HBox buttonTopTerminalPane=new HBox(terminalInputSetup_left,terminalInputSetup_right,closeTerminal);
     private HBox buttonTopTerminalPane2=new HBox(closeTerminal2);
     private HBox buttonTopTerminalPane3=new HBox(closeTerminal3);
     private Canvas canvasVisual = createCanvasGrid();
 
     private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content,canvasVisual);
-    private GridPane terminalInputField=new GridPane();
+    private GridPane terminalInputField_page_1=new GridPane();
     private GridPane terminalInputField2=new GridPane();
     private GridPane terminalInputField3=new GridPane();
     private GridPane saveInputField=new GridPane();
@@ -86,18 +90,29 @@ public class GateScenePane extends StackPane
     private Text saveAsText = new Text("Save as:");
     private Text printSourceOnScreenTitle = new Text(sourceDirectory);
     private ToolBar toolBarMain = new ToolBar();
+    private ToolBar toolBarSecondary = new ToolBar();
     private Button selectSingleFile=new Button("Open");
     private Button newProjectButton= new Button("New");
+    private Button  moveComponetButton= new Button(" ");////Move Component
+    private Button  removeComponetButton= new Button(" "); ///Remove Component
+    private Button   addNodeButton= new Button(" "); ///Add Node
+    private Button   addWireButton= new Button(" "); //Add Wire
+    private Button   expandButton= new Button("v\n");
+    private Button   shrinkButton= new Button("^\n");
+
     private Button writeSingleFileButton= new Button("Save");
     private Button writeButton= new Button("Save As");
     private Button closeSaveWindow= new Button("Close Dialogue Box");
+
+    private Button workspaceSizeButton= new Button(" ");///Workspace Size
+
 
     private Label fileToInputLabel = new Label("Input file name");
     private static TextField fileToInputTextField = new TextField(fileNameInputted);
 
     private static TableView truthTable = new TableView();
 
-    private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField);
+    private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField_page_1);
     private VBox gateTerminalCommands2 =new VBox(buttonTopTerminalPane2,terminalInputField2);
     private VBox gateTerminalCommands3 =new VBox(buttonTopTerminalPane3,terminalInputField3);
     private final VBox vboxTruthTable = new VBox();
@@ -114,23 +129,194 @@ public class GateScenePane extends StackPane
     {
         userInputtedGateNumber=2;
         ///Terminal stuff not visible
-        terminalInputField.setVisible(false);
-        terminalInputField2.setVisible(true);
+        terminalInputField_page_1.setVisible(false);
+        terminalInputField2.setVisible(false);
         terminalInputField3.setVisible(false);
         truthTable.setVisible(false);
         labelTruthTable.setVisible(false);
 
         ///Main toolbar at top of the page
-        VBox toolbar = new VBox(toolBarMain);
+        VBox toolbar1 = new VBox(toolBarMain);
+
+        ///Properties for icon new project button with in the main toolbar/toolbar 1
         toolBarMain.getItems().add(newProjectButton);
+        toolBarMain.setBackground(new Background(new BackgroundFill(Color.rgb(11,11,137), CornerRadii.EMPTY, Insets.EMPTY)));
+        ImageView newIconImage = new ImageView("file:src/main/java/com/example/test/new.png");
+        newIconImage.setFitWidth(20.0);
+        newIconImage.setFitHeight(20.0);
+        newIconImage.setPreserveRatio(true);
+        newIconImage.setPickOnBounds(true); // allows click on transparent areas
+        newProjectButton.setGraphic(newIconImage);
+        newProjectButton.setLayoutX(10);
+        newProjectButton.setLayoutY(10);
+        newProjectButton.setStyle("-fx-background-color: #0b0bc1; " +
+                                    "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for icon open project button with in the main toolbar/toolbar 1
         toolBarMain.getItems().add(selectSingleFile);
+        ImageView openIconImage = new ImageView("file:src/main/java/com/example/test/open.png");
+        openIconImage.setFitWidth(20.0);
+        openIconImage.setFitHeight(20.0);
+        openIconImage.setPreserveRatio(true);
+        openIconImage.setPickOnBounds(true); // allows click on transparent areas
+        selectSingleFile.setGraphic(openIconImage);
+        selectSingleFile.setLayoutX(10);
+        selectSingleFile.setLayoutY(10);
+        selectSingleFile.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for icon save project button with in the main toolbar/toolbar 1
         toolBarMain.getItems().add(writeSingleFileButton);
+        ImageView saveIconImage = new ImageView("file:src/main/java/com/example/test/save.png");
+        saveIconImage.setFitWidth(20.0);
+        saveIconImage.setFitHeight(20.0);
+        saveIconImage.setPreserveRatio(true);
+        saveIconImage.setPickOnBounds(true); // allows click on transparent areas
+        writeSingleFileButton.setGraphic(saveIconImage);
+        writeSingleFileButton.setLayoutX(10);
+        writeSingleFileButton.setLayoutY(10);
+        writeSingleFileButton.setStyle("-fx-background-color: #0b0bc1; " +
+            "-fx-text-fill: #FFFFFF;");
+
+        ///Seperator from the file query on main toolbar
         toolBarMain.getItems().add(new Separator());
-        toolBarMain.getItems().add(openTerminal);
+
+        ///Properties for icon add logic gate button with in the main toolbar/toolbar 1
+        toolBarMain.getItems().add(openTerminal); ///Add logic gates
+        ImageView addLogicGateImage = new ImageView("file:src/main/java/com/example/test/addGate.png");
+        addLogicGateImage.setFitWidth(75.0);
+        addLogicGateImage.setFitHeight(60.0);
+        addLogicGateImage.setPreserveRatio(true);
+        addLogicGateImage.setPickOnBounds(true); // allows click on transparent areas
+        openTerminal.setGraphic(addLogicGateImage);
+        openTerminal.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for icon add IC button with in the main toolbar/toolbar 1
         toolBarMain.getItems().add(openTerminal2);
+        ImageView addICImage = new ImageView("file:src/main/java/com/example/test/addIC.png");
+        addICImage.setFitWidth(50);
+        addICImage.setFitHeight(40);
+        addICImage.setPreserveRatio(true);
+        addICImage.setPickOnBounds(true); // allows click on transparent areas
+        openTerminal2.setGraphic(addICImage);
+        openTerminal2.setStyle("-fx-background-color: #0b0bc1; " +
+            "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for icon add component button with in the main toolbar/toolbar 1
         toolBarMain.getItems().add(openTerminal3);
+        ImageView addComponentImage = new ImageView("file:src/main/java/com/example/test/addComponet.png");
+        addComponentImage.setFitWidth(75);
+        addComponentImage.setFitWidth(75);
+        addComponentImage.setPreserveRatio(true);
+        addComponentImage.setPickOnBounds(true); // allows click on transparent areas
+        openTerminal3.setGraphic(addComponentImage);
+        openTerminal3.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        ///Seperator from the add components on main toolbar
         toolBarMain.getItems().add(new Separator());
-        toolBarMain.getItems().add(openVisual);
+
+        ///Properties for icon measurement display button with in the main toolbar/toolbar 1
+        toolBarMain.getItems().add(openMeasurements);
+        ImageView measurementsImage = new ImageView("file:src/main/java/com/example/test/sinewavemeasurement.png");
+        measurementsImage.setFitWidth(100);
+        measurementsImage.setFitHeight(200);
+        measurementsImage.setPreserveRatio(true);
+        measurementsImage.setPickOnBounds(true); // allows click on transparent areas
+        openMeasurements.setGraphic(measurementsImage);
+        openMeasurements.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for document information button with in the main toolbar/toolbar 1
+        toolBarMain.getItems().add(documentInformation);
+        ImageView documentInformationImage = new ImageView("file:src/main/java/com/example/test/document_information.png");
+        documentInformationImage.setFitWidth(25);
+        documentInformationImage.setFitWidth(25);
+        documentInformationImage.setPreserveRatio(true);
+        documentInformationImage.setPickOnBounds(true); // allows click on transparent areas
+        documentInformation.setGraphic(documentInformationImage);
+        documentInformation.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for open toolbar 2 button with in the main toolbar/toolbar 1
+        toolBarMain.getItems().add(expandButton);
+        expandButton.setStyle("-fx-background-color: #0b0bc1; " +
+            "-fx-text-fill: #FFFFFF;");
+
+        ///Toolbar 2/Secondary toolbar
+        VBox toolbar2 = new VBox(toolBarSecondary);
+        toolbar2.setLayoutY(57.5);
+        toolbar2.setLayoutX(257.0);
+
+        ///Properties for move component button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(moveComponetButton);
+        toolBarSecondary.setBackground(new Background(new BackgroundFill(Color.rgb(11,11,146), CornerRadii.EMPTY, Insets.EMPTY)));
+        ImageView moveImage = new ImageView("file:src/main/java/com/example/test/move.png");
+        moveImage.setFitWidth(25);
+        moveImage.setFitWidth(25);
+        moveImage.setPreserveRatio(true);
+        moveImage.setPickOnBounds(true); // allows click on transparent areas
+        moveComponetButton.setGraphic(moveImage);
+        moveComponetButton.setStyle("-fx-background-color: #0b0bc1; " +
+            "-fx-text-fill: #FFFFFF;");
+
+        ///Properties for add node button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(addNodeButton);
+        ImageView addNodeImage = new ImageView("file:src/main/java/com/example/test/addNode.png");
+        addNodeImage.setFitWidth(75);
+        addNodeImage.setFitWidth(75);
+        addNodeImage.setPreserveRatio(true);
+        addNodeImage.setPickOnBounds(true); // allows click on transparent areas
+        addNodeButton.setGraphic(addNodeImage);
+        addNodeButton.setStyle("-fx-background-color: #0b0bc1; " +
+        "-fx-text-fill: #FFFFFF;");
+        ///Properties for add wire button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(addWireButton);
+        ImageView addWireImage = new ImageView("file:src/main/java/com/example/test/addWire.png");
+        addWireImage.setFitWidth(75);
+        addWireImage.setFitWidth(75);
+        addWireImage.setPreserveRatio(true);
+        addWireImage.setPickOnBounds(true); // allows click on transparent areas
+        addWireButton.setGraphic(addWireImage);
+        addWireButton.setStyle("-fx-background-color: #0b0bc1; " +
+        "-fx-text-fill: #FFFFFF;");
+        ///Properties for remove component button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(removeComponetButton);
+        ImageView removeComponentImage = new ImageView("file:src/main/java/com/example/test/trashcan.png");
+        removeComponentImage.setFitWidth(25);
+        removeComponentImage.setFitWidth(25);
+        removeComponentImage.setPreserveRatio(true);
+        removeComponentImage.setPickOnBounds(true); // allows click on transparent areas
+        removeComponetButton.setGraphic(removeComponentImage);
+        removeComponetButton.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+        ///Separator from component properties to workspace properties
+        toolBarSecondary.getItems().add(new Separator());
+
+        ///Properties for open workspace button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(openVisual);
+        ImageView blueprintOpen = new ImageView("file:src/main/java/com/example/test/blueprint.png");
+        blueprintOpen.setFitWidth(25);
+        blueprintOpen.setFitWidth(25);
+        blueprintOpen.setPreserveRatio(true);
+        blueprintOpen.setPickOnBounds(true); // allows click on transparent areas
+        openVisual.setGraphic(blueprintOpen);
+        openVisual.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+        ///Properties for workspace size button with in the secondary toolbar/toolbar 2
+        toolBarSecondary.getItems().add(workspaceSizeButton);
+        ImageView workspaceSizeImage = new ImageView("file:src/main/java/com/example/test/expandicon.png");
+        workspaceSizeImage.setFitWidth(25);
+        workspaceSizeImage.setFitWidth(25);
+        workspaceSizeImage.setPreserveRatio(true);
+        workspaceSizeImage.setPickOnBounds(true); // allows click on transparent areas
+        workspaceSizeButton.setGraphic(workspaceSizeImage);
+        workspaceSizeButton.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+        toolBarSecondary.getItems().add(shrinkButton);
+        shrinkButton.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
         ///Scroll Pane inside the window
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setStyle("-fx-background: rgb(3, 5, 20);");
@@ -183,12 +369,11 @@ public class GateScenePane extends StackPane
         saveInputField.add(writeButton, 2, 0);;
         ///Input Single File Panel
         VBox writePanel= new VBox(saveInputField);
-        writePanel.setLayoutX(15.5);
-        writePanel.setLayoutY(40.5);
+        writePanel.setLayoutY(58.5);
         writePanel.setBorder(border);
-        writePanel.setPadding(new Insets(10, 50, 10, 50));
+        writePanel.setPadding(new Insets(10, 10, 10, 10));
         writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(16, 19, 48,0.5), CornerRadii.EMPTY, Insets.EMPTY)));
-        writePanel.setMaxWidth(500);
+        writePanel.setMaxWidth(270);
         writePanel.setMaxHeight(250);
         writePanel.setVisible(false);
 
@@ -220,6 +405,61 @@ public class GateScenePane extends StackPane
         newProjectButton.setOnAction(actionEvent ->
         {
             System.out.println("New Project");
+
+        });
+
+
+        workspaceSizeButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Enter workspace size x & y");
+
+        });
+
+        moveComponetButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Move component button clicked,  click component to move in scene.");
+
+        });
+
+        removeComponetButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Remove component button clicked,  click component to remove from scene.");
+
+        });
+
+        addNodeButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Add node button clicked,  click workspace to add node to bridge connections.");
+
+        });
+
+        addWireButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Add wire button clicked,  click workspace to add wire to make connection.");
+
+        });
+
+        shrinkButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Shrink toolbar 2.");
+            toolbar2.setVisible(false);
+        });
+
+        expandButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Expand toolbar 2.");
+            toolbar2.setVisible(true);
+        });
+
+        openMeasurements.setOnAction(actionEvent ->
+        {
+            System.out.println("Display measurements");
+
+        });
+
+        documentInformation.setOnAction(actionEvent ->
+        {
+            System.out.println("Display document information");
 
         });
 
@@ -273,7 +513,7 @@ public class GateScenePane extends StackPane
             gateTerminalCommands2.setVisible(true);
             gateTerminalCommands.setVisible(false);
             gateTerminalCommands3.setVisible(false);
-            System.out.println("Source components importer opened");
+            System.out.println("IC importer open");
         });
 
         openTerminal3.setOnAction(actionEvent ->
@@ -333,14 +573,22 @@ public class GateScenePane extends StackPane
         ///Terminal Window Buttons
         ///visualSymbolsTerminal,terminalTableResults,closeTerminal
 
-        terminalInputSetup.setOnAction(actionEvent ->
+        terminalInputSetup_left.setOnAction(actionEvent ->
         {
-            System.out.println("Logic Gate Symbol Importer is open");
-            terminalInputField.setVisible(true);
+            System.out.println("Page move to left");
+            terminalInputField_page_1.setVisible(true);
             truthTable.setVisible(false);
             labelTruthTable.setVisible(false);
         });
 
+        terminalInputSetup_right.setOnAction(actionEvent ->
+        {
+            System.out.println("Page move to right");
+            terminalInputField_page_1.setVisible(false);
+            ///terminalInputField2.setVisible(true);
+            truthTable.setVisible(false);
+            labelTruthTable.setVisible(false);
+        });
 
         ///VBox visual properties
         gateVisualVBox.setVisible(false);
@@ -544,28 +792,28 @@ public class GateScenePane extends StackPane
         {
 
             System.out.println("User selected the junction!"); // change functionality
-            selectedByUserGateImage=9;
+            ///selectedByUserGateImage=10;
 
 
         });
 
 
         ///Gridpane inside terminal main properties
-        terminalInputField.setMinSize(350,150);
-        terminalInputField.setPadding(new Insets(15,15,15,15));
-        terminalInputField.setVgap(10.0);
-        terminalInputField.setHgap(10.0);
-        terminalInputField.setAlignment(Pos.CENTER);
-        terminalInputField.add(nandGate2InputImage, 0, 0);
-        terminalInputField.add(andGate2InputImage, 0, 1);;
-        terminalInputField.add(orGate2InputImage, 1 ,0);
-        terminalInputField.add(norGate2InputImage, 1, 1);
-        terminalInputField.add(xorGate2InputImage, 2, 0);
-        terminalInputField.add(xnorGate2InputImage, 2, 1);
-        terminalInputField.add(notInputImage, 3, 0);
-        terminalInputField.add(bufferInputImage, 3 ,1);
+        terminalInputField_page_1.setMinSize(350,150);
+        terminalInputField_page_1.setPadding(new Insets(15,15,15,15));
+        terminalInputField_page_1.setVgap(10.0);
+        terminalInputField_page_1.setHgap(10.0);
+        terminalInputField_page_1.setAlignment(Pos.CENTER);
+        terminalInputField_page_1.add(nandGate2InputImage, 0, 0);
+        terminalInputField_page_1.add(andGate2InputImage, 0, 1);;
+        terminalInputField_page_1.add(orGate2InputImage, 1 ,0);
+        terminalInputField_page_1.add(norGate2InputImage, 1, 1);
+        terminalInputField_page_1.add(xorGate2InputImage, 2, 0);
+        terminalInputField_page_1.add(xnorGate2InputImage, 2, 1);
+        terminalInputField_page_1.add(notInputImage, 3, 0);
+        terminalInputField_page_1.add(bufferInputImage, 3 ,1);
         ///2,0
-        terminalInputField.setStyle("-fx-background-color: #002082; " +
+        terminalInputField_page_1.setStyle("-fx-background-color: #002082; " +
                 "-fx-grid-lines-visible: true"
         );
 
@@ -645,7 +893,7 @@ public class GateScenePane extends StackPane
         vboxTruthTable.setLayoutX(900.0);
         vboxTruthTable.getChildren().addAll(labelTruthTable,truthTable);
 
-        Group group=new Group(gateVisualVBox,toolbar,writePanel,vboxTruthTable);
+        Group group=new Group(gateVisualVBox,toolbar1,toolbar2,writePanel,vboxTruthTable);
         scrollPane.setContent(group);
         this.getChildren().addAll(scrollPane,gateTerminalCommands,gateTerminalCommands2,gateTerminalCommands3);
     }
@@ -658,6 +906,15 @@ public class GateScenePane extends StackPane
                 new NAND_2_Input<>(NAND_2_Input.gateName(),userInputtedGateNumber,true,false,true);
         logicGate.gateNumberOutput();
         logicGate.NAND_2_Output();
+    }
+
+
+    public void AND_2_Input_Single_Gate()
+    {
+        AND_2_Input<Object, Object, Object, Object> logicGate=
+                new AND_2_Input<>(AND_2_Input.gateName(),userInputtedGateNumber,true,false,true);
+        logicGate.gateNumberOutput();
+        logicGate.AND_2_Output();
     }
 public void NAND_7400_IC()
 {
@@ -705,22 +962,40 @@ public void NAND_7400_IC()
                                 NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
                                 gc.setFill(Color.RED);
                                 gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
-                                gc.setFill(Color.BLUE);
-                                gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
-                                gc.setFill(Color.RED);
-                                gc.fillRect(e.getX() + 5.5, e.getY(), 20, 5);
-                                gc.setFill(Color.GREEN);
-                                gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
-                                gc.setFill(Color.RED);
-                                gc.fillRect(e.getX() + 5.5, e.getY() + 73, 20, 5);
+                                ///gc.setFill(Color.BLUE);
+                                ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                ///gc.setFill(Color.GREEN);
+                                ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
                                 gc.setFill(Color.YELLOW);
                                 gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
                                 gc.setFill(Color.RED);
-                                gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 5);
+                                gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
                             }
                             case 2 -> ///AND Gate 2 Input
                                 {
                                     System.out.println("Gate selection:" + selectedByUserGateImage);
+                                    AND_2_Input_Single_Gate();
+                                    gc.setFill(Color.RED);
+                                    gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                   /*
+                                    gc.setFill(Color.BLUE);
+                                    gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                   */
+                                    gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                    gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                    /*
+                                    gc.setFill(Color.GREEN);
+                                    gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                    */
+                                    gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                    gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                    gc.setFill(Color.RED);  ///Y-LEG OUTPUT
+                                    gc.fillRect(e.getX() + 81.65, e.getY() + 38, 20, 2.5);
+
 
                                 }
                             case 3 -> ///OR Gate 2 Input
