@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -102,6 +103,7 @@ public class Main extends Application
             }
 
             logicGateSimulator.setMnemonicParsing(true);
+            MouseEvent e = null;
             windowApplication.setScene(new GateScene()); ///Change Window
         });
 
