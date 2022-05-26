@@ -2,6 +2,9 @@ package com.example.test;
 import com.example.test.Gates.AND_2_Input;
 import com.example.test.Gates.NAND_2_Input;
 import com.example.test.Gates.NAND_7400;
+import javafx.beans.property.ReadOnlyStringWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -10,23 +13,30 @@ import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.shape.ArcType;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import jdk.internal.icu.lang.UCharacterDirection;
+import jdk.internal.icu.util.CodePointMap;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 
 public class GateScenePane extends StackPane
@@ -101,10 +111,11 @@ public class GateScenePane extends StackPane
     private Button   addWireButton= new Button(" "); //Add Wire
     private Button   expandButton= new Button("v\n");
     private Button   shrinkButton= new Button("^\n");
+    private Button   tableIconButton= new Button(" ");
 
     private Button writeSingleFileButton= new Button("Save");
-    private Button writeButton= new Button("Save As");
-    private Button closeSaveWindow= new Button("Close Dialogue Box");
+    private Button writeButton= new Button(" ");
+    private Button closeSaveWindow= new Button("X  ");
 
     private Button workspaceSizeButton= new Button(" ");///Workspace Size
 
@@ -112,7 +123,7 @@ public class GateScenePane extends StackPane
     private Label fileToInputLabel = new Label("Input file name");
     private static TextField fileToInputTextField = new TextField(fileNameInputted);
 
-    private static TableView truthTable = new TableView();
+    private static final TableView<TruthTableContent> truthTable = new TableView<>();
 
     private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField_page_1);
     private VBox gateTerminalCommands2 =new VBox(buttonTopTerminalPane2,terminalInputField2);
@@ -135,8 +146,10 @@ public class GateScenePane extends StackPane
     ArrayList<Boolean> NANDGateAInputAmount = new ArrayList<Boolean>();   ///All inputs in list
     ArrayList<Boolean> NANDGateBInputAmount = new ArrayList<Boolean>();   ///All inputs in list
     ArrayList<Boolean> NANDGateYOutputAmount = new ArrayList<Boolean>();  ///All outputs in list
-
-
+    private TextField InA;
+    private TextField InB;
+    private TextField OutY;
+    ComboBox gateType=new ComboBox();
 
     public GateScenePane()
     {
@@ -149,6 +162,76 @@ public class GateScenePane extends StackPane
             terminalInputField3.setVisible(false);
             truthTable.setVisible(false);
             labelTruthTable.setVisible(false);
+
+            ///This is the Hbox for the user input field on the truth table...
+            Text nameIn,indexIn,GateTypeText;
+
+            GateTypeText=new Text("Gate Type:");
+            GateTypeText.setFont(new Font(20));
+            GateTypeText.setFill(Color.WHITE);
+
+            gateType.getItems().add("NAND");
+            gateType.getItems().add("AND");
+            gateType.getItems().add("OR");
+            gateType.getItems().add("NOR");
+            gateType.getItems().add("XOR");
+            gateType.getItems().add("XNOR");
+            gateType.getItems().add("NOT");
+            gateType.getItems().add("BUFFER");
+
+            gateType.setOnAction((event) ->
+            {
+                int selectedIndex = gateType.getSelectionModel().getSelectedIndex();
+                Object selectedItem = gateType.getSelectionModel().getSelectedItem();
+
+                System.out.println("Selection made: [" + selectedIndex + "] " + selectedItem);
+                System.out.println("ComboBox.getValue(): " + gateType.getValue());
+            });
+
+
+
+            ///Index input
+            indexIn=new Text("Inputs:");
+            indexIn.setFont(new Font(20));
+            indexIn.setFill(Color.WHITE);
+
+             ///Quantity input
+            InA=new TextField();
+            InA.setPromptText("A");
+            InA.setMinWidth(100);
+
+            ///Quantity input
+            InB=new TextField();
+            InB.setPromptText("B");
+            InB.setMinWidth(100);
+
+            nameIn=new Text("Output");
+            nameIn.setFont(new Font(20));
+            nameIn.setFill(Color.WHITE);
+            OutY=new TextField();
+            OutY.setPromptText("Y");
+            OutY.setMinWidth(100);
+
+            ///Buttons for the user input field on the Hbox of truth table.
+            Button addButton=new Button("+");
+            addButton.setStyle("-fx-background-color: #0b0bc1; " +
+                    "-fx-text-fill: #FFFFFF;");
+            addButton.setOnAction(e6-> addButtonClicked());
+
+            Button removeButton=new Button("-");
+            removeButton.setStyle("-fx-background-color: #0b0bc1; " +
+                    "-fx-text-fill: #FFFFFF;");
+            removeButton.setOnAction(e7-> removeButtonClicked());
+            Button closeTable=new Button("X");
+            closeTable.setStyle("-fx-background-color: #0b0bc1; " +
+            "-fx-text-fill: #FFFFFF;");
+
+            HBox tableInputs=new HBox();
+            tableInputs.setBackground(new Background(new BackgroundFill(Color.rgb(11, 11, 137), CornerRadii.EMPTY, Insets.EMPTY)));
+            tableInputs.setPadding(new Insets(10,10,10,10));
+            tableInputs.setSpacing(10);
+            tableInputs.getChildren().addAll(GateTypeText,gateType,indexIn, InA,InB,nameIn,OutY,addButton,removeButton,closeTable);
+
 
             ///Main toolbar at top of the page
             VBox toolbar1 = new VBox(toolBarMain);
@@ -243,6 +326,16 @@ public class GateScenePane extends StackPane
             openMeasurements.setStyle("-fx-background-color: #0b0bc1; " +
                     "-fx-text-fill: #FFFFFF;");
 
+            toolBarMain.getItems().add(tableIconButton);
+            ImageView tableImage = new ImageView("file:src/main/java/com/example/test/tableIcon.png");
+            tableImage.setFitWidth(25);
+            tableImage.setFitWidth(25);
+            tableImage.setPreserveRatio(true);
+            tableImage.setPickOnBounds(true); // allows click on transparent areas
+            tableIconButton.setGraphic(tableImage);
+            tableIconButton.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
             ///Properties for document information button with in the main toolbar/toolbar 1
             toolBarMain.getItems().add(documentInformation);
             ImageView documentInformationImage = new ImageView("file:src/main/java/com/example/test/document_information.png");
@@ -262,7 +355,7 @@ public class GateScenePane extends StackPane
             ///Toolbar 2/Secondary toolbar
             VBox toolbar2 = new VBox(toolBarSecondary);
             toolbar2.setLayoutY(57.5);
-            toolbar2.setLayoutX(257.0);
+            toolbar2.setLayoutX(310.0);
 
             ///Properties for move component button with in the secondary toolbar/toolbar 2
             toolBarSecondary.getItems().add(moveComponetButton);
@@ -329,6 +422,7 @@ public class GateScenePane extends StackPane
             workspaceSizeButton.setGraphic(workspaceSizeImage);
             workspaceSizeButton.setStyle("-fx-background-color: #0b0bc1; " +
                     "-fx-text-fill: #FFFFFF;");
+
             toolBarSecondary.getItems().add(shrinkButton);
             shrinkButton.setStyle("-fx-background-color: #0b0bc1; " +
                     "-fx-text-fill: #FFFFFF;");
@@ -369,10 +463,27 @@ public class GateScenePane extends StackPane
             inputInputsGate.setFont(Font.font("Arial", FontWeight.NORMAL, FontPosture.REGULAR, 12));
             inputInputsGate.setFill(Color.WHITE);
             saveAsText.setFont(Font.font("Arial", FontWeight.EXTRA_BOLD, FontPosture.REGULAR, 12));
-            saveAsText.setFill(Color.YELLOW);
+            saveAsText.setFill(Color.WHITE);
             ///Border for save as
             BorderStroke borderStroke = new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT);
             Border border = new Border(borderStroke);
+
+
+        ImageView saveIconImage2 = new ImageView("file:src/main/java/com/example/test/save.png");
+        saveIconImage2.setFitWidth(20.0);
+        saveIconImage2.setFitHeight(20.0);
+        saveIconImage2.setPreserveRatio(true);
+        saveIconImage2.setPickOnBounds(true); // allows click on transparent areas
+            writeButton.setGraphic(saveIconImage2);
+            writeButton.setLayoutX(10);
+            writeButton.setLayoutY(10);
+            writeButton.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
+
+        closeSaveWindow.setLayoutX(10);
+        closeSaveWindow.setLayoutY(10);
+        closeSaveWindow.setStyle("-fx-background-color: #0b0bc1; " +
+                "-fx-text-fill: #FFFFFF;");
 
             ///Save as layout
             saveInputField.setMinSize(50, 50);
@@ -381,17 +492,17 @@ public class GateScenePane extends StackPane
             saveInputField.setAlignment(Pos.CENTER);
             saveInputField.add(saveAsText, 0, 0);
             saveInputField.add(fileToInputTextField, 1, 0);
-            saveInputField.add(closeSaveWindow, 0, 1);
             saveInputField.add(writeButton, 2, 0);
+            saveInputField.add(closeSaveWindow, 3, 0);
             ;
             ///Input Single File Panel
             VBox writePanel = new VBox(saveInputField);
             writePanel.setLayoutY(58.5);
             writePanel.setBorder(border);
             writePanel.setPadding(new Insets(10, 10, 10, 10));
-            writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(16, 19, 48, 0.5), CornerRadii.EMPTY, Insets.EMPTY)));
-            writePanel.setMaxWidth(270);
-            writePanel.setMaxHeight(250);
+            writePanel.setBackground(new Background(new BackgroundFill(Color.rgb(11, 11, 146, 1), CornerRadii.EMPTY, Insets.EMPTY)));
+            writePanel.setMaxWidth(358);
+            writePanel.setMaxHeight(209);
             writePanel.setVisible(false);
 
 
@@ -508,6 +619,15 @@ public class GateScenePane extends StackPane
                 System.out.println("Add Components Importer closed");
             });
 
+        closeTable.setOnAction(actionEvent ->
+        {
+            System.out.println("The truth table/logic gate information tab is no longer visible.");
+            truthTable.setVisible(false);
+            truthTable.setTableMenuButtonVisible(false);
+            labelTruthTable.setVisible(false);
+            tableInputs.setVisible(false);
+        });
+
             openTerminal.setOnAction(actionEvent ->
             {
                 gateTerminalCommands.setVisible(true);
@@ -545,6 +665,12 @@ public class GateScenePane extends StackPane
                 System.out.println("Writing pane has been made visiable");
                 writePanel.setVisible(true);
             });
+
+            writeButton.setOnAction(actionEvent ->
+            {
+                System.out.println("This will shortcut write the file by mouse click");
+            });
+
 
             fileToInputTextField.setAlignment(Pos.BOTTOM_LEFT);
             fileToInputTextField.setOnKeyPressed(e -> {
@@ -584,8 +710,6 @@ public class GateScenePane extends StackPane
             {
                 System.out.println("Page move to left");
                 terminalInputField_page_1.setVisible(true);
-                truthTable.setVisible(false);
-                labelTruthTable.setVisible(false);
             });
 
             terminalInputSetup_right.setOnAction(actionEvent ->
@@ -596,6 +720,21 @@ public class GateScenePane extends StackPane
                 truthTable.setVisible(false);
                 labelTruthTable.setVisible(false);
             });
+
+
+        tableIconButton.setOnAction(actionEvent ->
+        {
+            System.out.println("Logic Gate Information");
+            truthTable.setVisible(true);
+            truthTable.setTableMenuButtonVisible(true);
+            labelTruthTable.setVisible(true);
+            tableInputs.setVisible(true);
+
+        });
+
+
+
+
 
             ///VBox visual properties
             gateVisualVBox.setVisible(false);
@@ -866,65 +1005,308 @@ public class GateScenePane extends StackPane
                     "-fx-grid-lines-visible: true"
             );
 
-        /*
 
-
-
-        terminalInputField.add(nandGate2InputImage ,0, 4);
-        terminalInputField.add(title2, 1, 4);
-        terminalInputField.setStyle("-fx-background-color: #002082; " +
-                                    "-fx-grid-lines-visible: true"
-                                   );
-                                   */
-            ///Table View for terminal table
+        ///Table View for terminal table
 
             labelTruthTable.setFont(new Font("Arial", 20));
             truthTable.setStyle("-fx-background-color: #002082;" +
                     "-fx-border-color: #3f4040;"
             );
-        /*
-        TableColumn titleCol = new TableColumn("Title");
-        TableColumn authorCol = new TableColumn("Author");
-        truthTable.getColumns().setAll(titleCol, authorCol);
-        truthTable.setPrefWidth(450);
-        truthTable.setPrefHeight(300);
-        truthTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        */
 
-            ///This is the container of objects...
-            ///NAND_7400_IC();
-            ///NAND_2_Input_Single_Gate();
+
+
+
+            /// Name Column
+            TableColumn<TruthTableContent,String> nameColumn=new TableColumn<>("Name");
+            nameColumn.setMinWidth(200);
+            nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+            /// Index Column
+            TableColumn<TruthTableContent,Integer> indexColumn=new TableColumn<>("Index");
+            indexColumn.setMinWidth(200);
+            indexColumn.setCellValueFactory(new PropertyValueFactory<>("index"));
+
+            /// Gate Input A Column
+            TableColumn<TruthTableContent,Boolean> inputA=new TableColumn<>("A");
+            inputA.setMinWidth(200);
+            inputA.setCellValueFactory(new PropertyValueFactory<>("Gate_Input_1"));
+
+            /// Gate Input A Column
+            TableColumn<TruthTableContent,Boolean> inputB=new TableColumn<>("B");
+            inputB.setMinWidth(200);
+            inputB.setCellValueFactory(new PropertyValueFactory<>("Gate_Input_2"));
+
+            /// Gate Input A Column
+            TableColumn<TruthTableContent,Boolean> outputY=new TableColumn<>("Y");
+            outputY.setMinWidth(200);
+            outputY.setCellValueFactory(new PropertyValueFactory<>("Gate_Output"));
+
+
+        truthTable.setItems(retrieveTableInformation()); ///This is the list the truth table fetches the data from...
+            truthTable.getColumns().addAll(nameColumn,indexColumn,inputA,inputB,outputY);
+            truthTable.setTableMenuButtonVisible(true);
+            tableInputs.setVisible(false);
+
 
             vboxTruthTable.setSpacing(5);
             vboxTruthTable.setPadding(new Insets(10, 0, 0, 10));
             vboxTruthTable.setLayoutX(900.0);
-            vboxTruthTable.getChildren().addAll(labelTruthTable, truthTable);
+            vboxTruthTable.getChildren().addAll(labelTruthTable, truthTable,tableInputs);
 
             Group group = new Group(gateVisualVBox, writePanel, vboxTruthTable, toolbar1, toolbar2);
             scrollPane.setContent(group);
             this.getChildren().addAll(scrollPane, gateTerminalCommands, gateTerminalCommands2, gateTerminalCommands3);
         }
 
+        ///Retrieve table information to populate from external file...
+        public ObservableList<TruthTableContent>retrieveTableInformation()
+        {
+            ObservableList<TruthTableContent>contents=FXCollections.observableArrayList();
+            return contents;
+
+        }
+
+        private boolean inputAResult;
+        private boolean inputBResult;
+        private boolean outputYResult;
+        public void addButtonClicked()
+        {
+            TruthTableContent content= new TruthTableContent();
+
+            if(gateType.getValue() == "NAND")
+            {
+                NAND_2_Input_Single_Gate();
+                if((InA.getText().contains("0")) && InB.getText().contains("0"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(false);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(false);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                                        "\nA="+NANDGateAInputAmount+
+                                        "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                                        "\nComponent List: "+componentAmount.toString()
+                                      );
+
+                    truthTable.getItems().add(content);
+                }
+
+                else if((InA.getText().contains("false")) && InB.getText().contains("false"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(false);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(false);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                if((InA.getText().contains("0")) && InB.getText().contains("1"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(false);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(true);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                else if((InA.getText().contains("false")) && InB.getText().contains("true"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(false);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(true);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                if((InA.getText().contains("1")) && InB.getText().contains("0"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(true);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(false);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                else if((InA.getText().contains("true")) && InB.getText().contains("false"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(true);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(false);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(true);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+
+                if((InA.getText().contains("1")) && InB.getText().contains("1"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(true);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(true);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(false);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                else if((InA.getText().contains("true")) && InB.getText().contains("true"))
+                {
+                    componentAmount.add(NAND_2_Input.gateName());
+                    content.setIndex(componentAmount.size());
+
+                    inputAResult = content.setGate_Input_1(true);
+                    NANDGateAInputAmount.add(inputAResult);
+
+                    inputBResult = content.setGate_Input_2(true);
+                    NANDGateBInputAmount.add(inputBResult);
+
+                    outputYResult = content.setGate_Output(false);
+                    NANDGateYOutputAmount.add(outputYResult);
+
+                    System.out.println(gateType.getValue()+
+                            "\nA="+NANDGateAInputAmount+
+                            "\nB="+NANDGateBInputAmount+
+                            "           \nY="+NANDGateYOutputAmount+
+                            "\nComponent List: "+componentAmount.toString()
+                    );
+
+                    truthTable.getItems().add(content);
+                }
+
+                else if((InA.getText().isEmpty()) && InB.getText().isEmpty())
+                {
+                    System.out.println("Invalid enter an valid value in both fields!");
+                }
+
+
+                InA.clear();
+                InB.clear();
+
+            }
+
+            else if(gateType.getValue() == "AND")
+            {
+                System.out.println("Have to add AND condition...");
+                ///truthTable.getItems().add(content);
+            }
+
+
+            else
+            {
+                System.out.println("Invalid");
+                InA.clear();
+                InB.clear();
+            }
+        }
+        public void removeButtonClicked()
+        {
+
+        }
+
+
 
     public void NAND_2_Input_Single_Gate()
     {
         NAND_2_Input<Object, Object, Object, Object> logicGate=
                 new NAND_2_Input<>(NAND_2_Input.gateName(),userInputtedGateNumber,true,false,true);
-        logicGate.gateNumberOutput();
-        logicGate.NAND_2_Output();
-        gateAmount.add("NAND Gate - 2 Input");
-        NANDGateAmount.add("NAND Gate - 2 Input");
-        componentAmount.add("NAND Gate - 2 Input");
-        NANDGateAInputAmount.add(logicGate.NAND_2_Input_A());
-        NANDGateBInputAmount.add(logicGate.NAND_2_Input_B());
-        NANDGateYOutputAmount.add(logicGate.NAND_2_Output());
-        System.out.println("\n***********\nTotal amount of Components: "+componentAmount.size());
-        System.out.println("Total amount of Gates: "+gateAmount.size());
-        System.out.println("Total amount of NAND Gates: "+NANDGateAmount.size());
-        System.out.println("\ninput A: "+NANDGateAInputAmount+
-                           "\ninput B: "+NANDGateBInputAmount+
-                           "\noutput Y:"+NANDGateYOutputAmount+
-                            "\n***********\n");
+        NAND_2_Input.gateNumberOutput();
+        NAND_2_Input.NAND_2_Output();
     }
 
 

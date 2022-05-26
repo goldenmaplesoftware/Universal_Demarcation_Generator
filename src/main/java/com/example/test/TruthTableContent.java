@@ -1,11 +1,84 @@
 package com.example.test;
 
-import javafx.scene.control.ListView;
+import com.example.test.Gates.NAND_2_Input;
 
 public class TruthTableContent
 {
-    private Double VCC; ///Voltage
-    private Double GND; ///Ground
+
+    private String name;
+    private int index;
+
+    private double VCC; ///Voltage
+    private double GND; ///Ground
+    private double VoltageAcrossedComponent;
+    private double CurrentAcrossedComponent;
+    private boolean Gate_Input_1;
+    private boolean Gate_Input_2;
+    private boolean Gate_Input_3;
+    private boolean Gate_Output;
+
+
+    public TruthTableContent() {
+        this.name= NAND_2_Input.gateName();
+        this.index=NAND_2_Input.gateNumberOutput();
+        this.Gate_Input_1=NAND_2_Input.gateInputA();
+        this.Gate_Input_2=NAND_2_Input.gateInputB();
+        this.Gate_Output=NAND_2_Input.gateOutputY();
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+
+    public boolean isGate_Input_1() {
+        return Gate_Input_1;
+    }
+
+    public boolean setGate_Input_1(boolean gate_Input_1) {
+        Gate_Input_1 = gate_Input_1;
+        return gate_Input_1;
+    }
+
+    public boolean isGate_Input_2() {
+        return Gate_Input_2;
+    }
+
+    public boolean setGate_Input_2(boolean gate_Input_2) {
+        Gate_Input_2 = gate_Input_2;
+        return gate_Input_2;
+    }
+
+    public boolean isGate_Input_3() {
+        return Gate_Input_3;
+    }
+
+    public void setGate_Input_3(boolean gate_Input_3) {
+        Gate_Input_3 = gate_Input_3;
+    }
+
+    public boolean isGate_Output() {
+        return Gate_Output;
+    }
+
+    public boolean setGate_Output(boolean gate_Output) {
+        Gate_Output = gate_Output;
+        return gate_Output;
+    }
+/*
     private Boolean Input_1; ///A
     private Boolean Input_2; ///B
     private Boolean Input_3; ///C
@@ -53,6 +126,7 @@ public class TruthTableContent
     private final boolean[] Gate_74x27 ={NOR_Input_1,NOR_Input_2,NOR_Input_3};  ///NOR
     private final boolean[] Gate_74x4075 ={OR_Input_1,OR_Input_2,OR_Input_3};    ///OR
 
+*/
 
 
 
