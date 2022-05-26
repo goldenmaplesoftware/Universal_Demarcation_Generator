@@ -87,6 +87,7 @@ public class GateScenePane extends StackPane
     private HBox buttonTopTerminalPane=new HBox(terminalInputSetup_left,terminalInputSetup_right,closeTerminal);
     private HBox buttonTopTerminalPane2=new HBox(closeTerminal2);
     private HBox buttonTopTerminalPane3=new HBox(closeTerminal3);
+    private HBox tableInputs=new HBox(); ///tableInputs is the boolean input field for the logic gates
     private Canvas canvasVisual = createCanvasGrid();
 
     private VBox gateVisualVBox =new VBox(buttonTopVisualPane, content,canvasVisual);
@@ -125,7 +126,7 @@ public class GateScenePane extends StackPane
 
     private static final TableView<TruthTableContent> truthTable = new TableView<>();
 
-    private VBox gateTerminalCommands =new VBox(buttonTopTerminalPane,truthTable,terminalInputField_page_1);
+    private VBox gateTerminalCommands =new VBox(tableInputs,truthTable,terminalInputField_page_1);
     private VBox gateTerminalCommands2 =new VBox(buttonTopTerminalPane2,terminalInputField2);
     private VBox gateTerminalCommands3 =new VBox(buttonTopTerminalPane3,terminalInputField3);
     private final VBox vboxTruthTable = new VBox();
@@ -162,6 +163,7 @@ public class GateScenePane extends StackPane
             terminalInputField3.setVisible(false);
             truthTable.setVisible(false);
             labelTruthTable.setVisible(false);
+            tableInputs.setVisible(false);
 
             ///This is the Hbox for the user input field on the truth table...
             Text nameIn,indexIn,GateTypeText;
@@ -222,15 +224,16 @@ public class GateScenePane extends StackPane
             removeButton.setStyle("-fx-background-color: #0b0bc1; " +
                     "-fx-text-fill: #FFFFFF;");
             removeButton.setOnAction(e7-> removeButtonClicked());
+
             Button closeTable=new Button("X");
             closeTable.setStyle("-fx-background-color: #0b0bc1; " +
             "-fx-text-fill: #FFFFFF;");
 
-            HBox tableInputs=new HBox();
+            tableInputs.setMaxHeight(50);
             tableInputs.setBackground(new Background(new BackgroundFill(Color.rgb(11, 11, 137), CornerRadii.EMPTY, Insets.EMPTY)));
             tableInputs.setPadding(new Insets(10,10,10,10));
             tableInputs.setSpacing(10);
-            tableInputs.getChildren().addAll(GateTypeText,gateType,indexIn, InA,InB,nameIn,OutY,addButton,removeButton,closeTable);
+            tableInputs.getChildren().addAll(terminalInputSetup_left,GateTypeText,gateType,indexIn, InA,InB,nameIn,OutY,addButton,removeButton,closeTerminal,terminalInputSetup_right);
 
 
             ///Main toolbar at top of the page
@@ -625,12 +628,12 @@ public class GateScenePane extends StackPane
             truthTable.setVisible(false);
             truthTable.setTableMenuButtonVisible(false);
             labelTruthTable.setVisible(false);
-            tableInputs.setVisible(false);
         });
 
             openTerminal.setOnAction(actionEvent ->
             {
                 gateTerminalCommands.setVisible(true);
+                tableInputs.setVisible(true);
                 gateTerminalCommands2.setVisible(false);
                 gateTerminalCommands3.setVisible(false);
                 System.out.println("Logic Gate Symbol Importer opened");
@@ -728,8 +731,6 @@ public class GateScenePane extends StackPane
             truthTable.setVisible(true);
             truthTable.setTableMenuButtonVisible(true);
             labelTruthTable.setVisible(true);
-            tableInputs.setVisible(true);
-
         });
 
 
@@ -748,10 +749,12 @@ public class GateScenePane extends StackPane
                     "-fx-border-width: 1.25;" +
                     "-fx-border-color: #7a7a7a;");
 
-            gateVisualVBox.setMaxWidth(1100);
+            truthTable.setTranslateX(-130.0);
+            truthTable.setTranslateY(140.0);
+            gateVisualVBox.setMaxWidth(1500);
             gateVisualVBox.setMaxHeight(200);
-            gateVisualVBox.setTranslateX(255.0);
-            gateVisualVBox.setTranslateY(100.0);///Moves the box y orientation
+            gateVisualVBox.setTranslateX(30.0);
+            gateVisualVBox.setTranslateY(150.0);///Moves the box y orientation
 
 
             ///Canvas graphics content
@@ -760,7 +763,7 @@ public class GateScenePane extends StackPane
 
 
             ///HBox top of terminal that has buttons visual
-            HBox.setMargin(closeTerminal, new Insets(0, 0, 0, 458));
+            HBox.setMargin(closeTerminal, new Insets(0, 0, 0, 258));
             buttonTopTerminalPane.setSpacing(40);
             buttonTopTerminalPane.setStyle("-fx-padding: 10;" +
                     "-fx-border-style: solid inside;" +
@@ -803,10 +806,10 @@ public class GateScenePane extends StackPane
                     "-fx-background-color: #101330;" +
                     "-fx-border-width: 2.25;" +
                     "-fx-border-color: #3f4040;");
-            gateTerminalCommands.setMaxWidth(1000);
-            gateTerminalCommands.setMaxHeight(300);
-            gateTerminalCommands.setTranslateX(20.0);///Moves the box x orientation
-            gateTerminalCommands.setTranslateY(200.0);///Moves the box y orientation
+            gateTerminalCommands.setMaxWidth(100);
+            gateTerminalCommands.setMaxHeight(150);
+            gateTerminalCommands.setTranslateX(77);///Moves the box x orientation
+            gateTerminalCommands.setTranslateY(230.0);///Moves the box y orientation
 
             ///VBox terminal 2 properties
             gateTerminalCommands.setVisible(false);
@@ -1008,11 +1011,6 @@ public class GateScenePane extends StackPane
 
         ///Table View for terminal table
 
-            labelTruthTable.setFont(new Font("Arial", 20));
-            truthTable.setStyle("-fx-background-color: #002082;" +
-                    "-fx-border-color: #3f4040;"
-            );
-
 
 
 
@@ -1042,16 +1040,14 @@ public class GateScenePane extends StackPane
             outputY.setCellValueFactory(new PropertyValueFactory<>("Gate_Output"));
 
 
-        truthTable.setItems(retrieveTableInformation()); ///This is the list the truth table fetches the data from...
+            truthTable.setItems(retrieveTableInformation()); ///This is the list the truth table fetches the data from...
             truthTable.getColumns().addAll(nameColumn,indexColumn,inputA,inputB,outputY);
             truthTable.setTableMenuButtonVisible(true);
-            tableInputs.setVisible(false);
-
 
             vboxTruthTable.setSpacing(5);
             vboxTruthTable.setPadding(new Insets(10, 0, 0, 10));
             vboxTruthTable.setLayoutX(900.0);
-            vboxTruthTable.getChildren().addAll(labelTruthTable, truthTable,tableInputs);
+            vboxTruthTable.getChildren().addAll(truthTable);
 
             Group group = new Group(gateVisualVBox, writePanel, vboxTruthTable, toolbar1, toolbar2);
             scrollPane.setContent(group);
@@ -1069,11 +1065,12 @@ public class GateScenePane extends StackPane
         private boolean inputAResult;
         private boolean inputBResult;
         private boolean outputYResult;
-        public void addButtonClicked()
+        public void addButtonClicked() ///Re-enable if necessary
         {
+            /*
             TruthTableContent content= new TruthTableContent();
 
-            if(gateType.getValue() == "NAND")
+            if(gateType.getValue() == "NAND" || selectedByUserGateImage==1)
             {
                 NAND_2_Input_Single_Gate();
                 if((InA.getText().contains("0")) && InB.getText().contains("0"))
@@ -1293,6 +1290,7 @@ public class GateScenePane extends StackPane
                 InA.clear();
                 InB.clear();
             }
+            */
         }
         public void removeButtonClicked()
         {
@@ -1353,14 +1351,519 @@ public void NAND_7400_IC()
                     @Override
                     public void handle(MouseEvent e)
                     {
-
+                        TruthTableContent content= new TruthTableContent();
                         switch (selectedByUserGateImage)
                         {
                             case 1 -> ///NAND Gate 2 Input
                             {
-                                System.out.println("Gate selection:" + selectedByUserGateImage);
-                                ///NAND Gate Entry
+                                ///This will dictate the logic of the NAND gate depending on the users input
+                                if(gateType.getValue() == "NAND" || selectedByUserGateImage==1)
+                                {
+                                    NAND_2_Input_Single_Gate();
 
+                                    if((InA.getText().contains("0")) && InB.getText().contains("0"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(false);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(false);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    else if((InA.getText().contains("false")) && InB.getText().contains("false"))
+                                    {
+
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(false);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(false);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    if((InA.getText().contains("0")) && InB.getText().contains("1"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(false);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(true);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    else if((InA.getText().contains("false")) && InB.getText().contains("true"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(false);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(true);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    if((InA.getText().contains("1")) && InB.getText().contains("0"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(true);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(false);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    else if((InA.getText().contains("true")) && InB.getText().contains("false"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(true);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(false);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(true);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+
+                                    if((InA.getText().contains("1")) && InB.getText().contains("1"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(true);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(true);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(false);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    else if((InA.getText().contains("true")) && InB.getText().contains("true"))
+                                    {
+                                        ///This will draw the NAND Gate
+                                        gc.setFill(Color.YELLOW); ///Input A set colour
+                                        gc.setFont(new Font(20));  ///Input A set font size
+
+                                        ///A properties of text
+                                        TextField localTextFieldA=new TextField();
+                                        localTextFieldA.setText("A("+NANDGateAInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldA.getText()),e.getX()-10.85,e.getY()); ///Input A
+
+                                        gc.setFill(Color.YELLOW); ///Input B set colour
+                                        gc.setFont(new Font(20));  ///Input B set font size
+
+                                        ///B properties of text
+                                        TextField localTextFieldB=new TextField();
+                                        localTextFieldB.setText("B("+NANDGateBInputAmount.size()+")"); ///Retrieves the number in the index of added
+                                        gc.fillText(String.valueOf(localTextFieldB.getText()),e.getX()-10.85,e.getY()+75); ///Input A
+
+
+                                        NAND_2_Input_Single_Gate(); ///This is the function call for when it is selected
+                                        gc.setFill(Color.RED);
+                                        gc.fillArc(e.getX(), e.getY(), 80, 80, -105, 210, ArcType.CHORD);
+                                        ///gc.setFill(Color.BLUE);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY(), 10, 10); ///Top input A
+                                        gc.setFill(Color.RED); ///A- LEG INPUT TOP
+                                        gc.fillRect(e.getX() + 12.85, e.getY(), 20, 2.5);
+                                        ///gc.setFill(Color.GREEN);
+                                        ///gc.fillOval(e.getX() + 25.5, e.getY() + 70, 10, 10); ///Top input B
+                                        gc.setFill(Color.RED);  ///B- LEG INPUT BOTTOM
+                                        gc.fillRect(e.getX() + 12.85, e.getY() + 77.0, 20, 2.5);
+                                        gc.setFill(Color.YELLOW);
+                                        gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
+                                        gc.setFill(Color.RED);
+                                        gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+
+                                        ///This is the logic of the NAND gate
+                                        componentAmount.add(NAND_2_Input.gateName());
+                                        content.setIndex(componentAmount.size());
+
+                                        inputAResult = content.setGate_Input_1(true);
+                                        NANDGateAInputAmount.add(inputAResult);
+
+                                        inputBResult = content.setGate_Input_2(true);
+                                        NANDGateBInputAmount.add(inputBResult);
+
+                                        outputYResult = content.setGate_Output(false);
+                                        NANDGateYOutputAmount.add(outputYResult);
+
+                                        System.out.println(gateType.getValue()+
+                                                "\nA="+NANDGateAInputAmount+
+                                                "\nB="+NANDGateBInputAmount+
+                                                "           \nY="+NANDGateYOutputAmount+
+                                                "\nComponent List: "+componentAmount.toString()
+                                        );
+
+                                        truthTable.getItems().add(content);
+                                    }
+
+                                    else if((InA.getText().isEmpty()) && InB.getText().isEmpty())
+                                    {
+                                        System.out.println("Invalid enter an valid value in both fields!");
+                                    }
+
+
+                                    InA.clear();
+                                    InB.clear();
+
+                                }
+
+                                else if(gateType.getValue() == "AND")
+                                {
+                                    System.out.println("Have to add AND condition...");
+                                    ///truthTable.getItems().add(content);
+                                }
+
+
+                                else
+                                {
+                                    System.out.println("Invalid");
+                                    InA.clear();
+                                    InB.clear();
+                                }
+
+
+
+                                ///This will draw the NAND Gate to the canvas sample code
+                                /*
                                 gc.setFill(Color.YELLOW); ///Input A set colour
                                 gc.setFont(new Font(20));  ///Input A set font size
 
@@ -1393,6 +1896,7 @@ public void NAND_7400_IC()
                                 gc.fillOval(e.getX() + 80.5, e.getY() + 35, 10, 10);/// output Y
                                 gc.setFill(Color.RED);
                                 gc.fillRect(e.getX() + 91.5, e.getY() + 38, 20, 2.5);
+                                */
                             }
                             case 2 -> ///AND Gate 2 Input
                                 {
